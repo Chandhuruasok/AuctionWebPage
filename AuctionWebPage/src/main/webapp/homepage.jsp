@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -86,8 +84,8 @@ color:white;
 <body>
 <nav>
     <ul>
-    	<li><img src="bid.jpg" alt="logo"></li>
-        <li><a href="homepage.jsp">Home</a></li>
+<!-- -     	 <li><img src="Images/bid2" alt="logo"></li>  -->
+       <li><a href="homepage.jsp">Home</a></li>
         <li><a href="login.jsp">Login</a></li>
         <li><a href="about.jsp">About</a></li>
     </ul>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="ISO-8859-1">
 <title>Bidderboy Auction Website</title>
@@ -130,7 +130,7 @@ button:hover {
 <body>
 <nav>
     <ul>
-    	<li><img src="bid.jpg" alt="logo"></li>
+    	 <li><img src="Images/bidimage" alt="logo"></li>
         <li><a href="homepage.jsp">Home</a></li>
         <li><a href="login.jsp">Login</a></li>
         <li><a href="about.jsp">About</a></li>

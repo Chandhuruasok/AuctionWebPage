@@ -30,14 +30,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>src/main/webapp/bid.jpg</name>
+			<name>src/main/webapp/WEB-INF/Images/bidimage.jpg</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Downloads/bid.jpg</locationURI>
-		</link>
-		<link>
-			<name>src/main/webapp/bid1.jpg</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Downloads/bid1.jpg</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/Downloads/bidimage.jpg</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

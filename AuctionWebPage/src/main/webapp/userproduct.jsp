@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="com.auction.model.AuctionPojo" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,7 +60,7 @@
 
 <div class="container">
   <h2>Product Details</h2>
-  <form action="AuctionOnline" method="post">
+  <form action="AuctionOnline" method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label for="name">User Name:</label>
       <input type="text" id="name" name="name" required>
@@ -114,13 +115,13 @@
       <input type="date" id="bid_end_date" name="bid_end_date" required>
     </div>
     <div class="form-group">
-      <label for="bid_start_time">Bid Start Time:</label>
-      <input type="time" id="bid_start_time" name="bid_start_time" required>
-    </div>
-    <div class="form-group">
-      <label for="bid_end_time">Bid End Time:</label>
-      <input type="time" id="bid_end_time" name="bid_end_time" required>
-    </div>
+    
+    <% 
+    AuctionPojo userId=(AuctionPojo)session.getAttribute("userid"); 
+    
+    %>
+    <input type="hidden" value="<%=userId.getId()%>" name="id">
+    
     <div class="form-group">
       <button type="submit">Submit</button>
       <input type="hidden" name="action" value="user">

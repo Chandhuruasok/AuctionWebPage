@@ -7,19 +7,23 @@ import java.sql.SQLException;
 import java.sql.Time;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.auction.model.AuctionPojo;
 import com.auction.util.JdbcAuction;
-import java.sql.Blob;
+//import java.sql.Blob;
+
+@MultipartConfig
 @WebServlet("/AuctionOnline")
 public class AuctionOnline extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    AuctionPojo auctionPojo = new AuctionPojo();
+    AuctionPojo auctionPojo = new AuctionPojo(0, null, 0, null, null, null, null, null, null, 0, 0, null, null);
     JdbcAuction jdbcAuction = new JdbcAuction();
 
     public AuctionOnline() {
@@ -32,74 +36,22 @@ public class AuctionOnline extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
-        String email = request.getParameter("email");
-        String name = request.getParameter("name");
-        String phoneNumber = request.getParameter("phonenumber");
-        String password = request.getParameter("password");
-        String productName=request.getParameter("product_name");
-        InputStream productImage=null;
-        Part filePart=request.getPart("image");
-        if(filePart!=null)
-        { 
-        	productImage = filePart.getInputStream();
-        	
-        }
-        String productModel=request.getParameter("product_model");
-        String productCategory=request.getParameter("product_category");
-        String productCondition=request.getParameter("product_condition");
-        String productDescription=request.getParameter("product_description");
-        String terms=request.getParameter("terms_and_conditions");
-        Date startDate = null;
-        Date endDate = null;
-        String bidStartDate = request.getParameter("bid_start_date");
-        String bidEndDate = request.getParameter("bid_end_date");
-        try {
-            startDate = Date.valueOf(bidStartDate);
-            endDate = Date.valueOf(bidEndDate);
-            } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            }
-        Time startTime = null;
-        Time endTime = null;
-        String bidStartTime = request.getParameter("bid_start_time");
-        String bidEndTime = request.getParameter("bid_end_time");
-        try {
-            startTime = Time.valueOf(bidStartTime);
-            endTime = Time.valueOf(bidEndTime);
-            } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            }
-        String averageAmount1 = request.getParameter("average_amount");
-        String maximumAmount1 = request.getParameter("maximum_amount");
-        if (averageAmount1 != null && !averageAmount1.isEmpty() && maximumAmount1!= null && !maximumAmount1.isEmpty()) {
-            int averageAmount2 = Integer.parseInt(averageAmount1);
-            int maximumAmount2 = Integer.parseInt(maximumAmount1);
-            
-            auctionPojo.setAverageAmount(averageAmount2);
-            auctionPojo.setMaximumAmount(maximumAmount2);
-        }
-        auctionPojo.setEmail(email);
-        auctionPojo.setName(name);
-        auctionPojo.setPhoneNumber(phoneNumber);
-        auctionPojo.setPassword(password);
-        auctionPojo.setProductName(productName);
-        auctionPojo.setImage(productImage);
-        auctionPojo.setProductModel(productModel);
-        auctionPojo.setProductCategory(productCategory);
-        auctionPojo.setProductCondition(productCondition);
-        auctionPojo.setProductDescription(productDescription);
-        auctionPojo.setTerms(terms);
         
-        auctionPojo.setStartDate(startDate);
-        auctionPojo.setEndDate(endDate);
-        auctionPojo.setStartTime(startTime);
-        auctionPojo.setEndTime(endTime);
+        
         String action = request.getParameter("action");
         System.out.println(action);
         if (action != null) {
             switch (action) {
                 case "register":
+                	String email = request.getParameter("email");
+                    String name = request.getParameter("name");
+                    String phoneNumber = request.getParameter("phonenumber");
+                    String password = request.getParameter("password");
                     
+                    auctionPojo.setEmail(email);
+                    auctionPojo.setName(name);
+                    auctionPojo.setPhoneNumber(phoneNumber);
+                    auctionPojo.setPassword(password);
                        
 				try {
 					if(JdbcAuction.insert(auctionPojo))
@@ -123,19 +75,30 @@ public class AuctionOnline extends HttpServlet {
                    break;     
                             
                 case "login":
+                	String email1 = request.getParameter("email");
+                    String name1 = request.getParameter("name");
+                    String password1 = request.getParameter("password");
+                    auctionPojo.setEmail(email1);
+                    auctionPojo.setName(name1);
+                    auctionPojo.setPassword(password1);
                     try {
                        
                         if(JdbcAuction.login(auctionPojo))
                         {
-                            if(email.endsWith("@bidderboy.com")) 
+                        	AuctionPojo id=jdbcAuction.getId(auctionPojo);
+                        	System.out.println(id);
+                        	HttpSession session=request.getSession();
+                        	System.out.println(id);
+                        	session.setAttribute("userid",id);
+                            if(email1.endsWith("@bidderboy.com")) 
                             {
-                              response.sendRedirect("viewproduct.jsp");
+                              response.sendRedirect("admin.jsp");
                             }
-                            else if(email.endsWith("@user.com"))
+                            else if(email1.endsWith("@user.com"))
                             {
                             	  response.sendRedirect("userproduct.jsp");
                             }
-                            else if(email.endsWith("@gmail.com"))
+                            else if(email1.endsWith("@gmail.com"))
                             {
                             	  response.sendRedirect("bid.jsp");
                             }
@@ -151,16 +114,67 @@ public class AuctionOnline extends HttpServlet {
                     }
                     break;
                 case "user":
+                	 int id=Integer.parseInt(request.getParameter("id"));
+
+                	String name2 = request.getParameter("name");
+                	String productName=request.getParameter("product_name");
+                	Part filePart = request.getPart("image");
+                	InputStream inputStream=null;
+                    if (filePart != null) {
+                       
+                        System.out.println(filePart.getName());
+                        System.out.println(filePart.getSize());
+                        System.out.println(filePart.getContentType());
+                        
+                        
+                        inputStream = filePart.getInputStream();
+                    }
+                    byte[] images =null;
+                    if(inputStream !=null) {
+                        images = inputStream.readAllBytes();
+                    }
                     
+                    String productModel=request.getParameter("product_model");
+                    String productCategory=request.getParameter("product_category");
+                    String productCondition=request.getParameter("product_condition");
+                    String productDescription=request.getParameter("product_description");
+                    String terms=request.getParameter("terms_and_conditions");
+                    Date startDate = null;
+                    Date endDate = null;
+                    String bidStartDate = request.getParameter("bid_start_date");
+                    String bidEndDate = request.getParameter("bid_end_date");
+                    try {
+                        startDate = Date.valueOf(bidStartDate);
+                        endDate = Date.valueOf(bidEndDate);
+                        } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                        }
+                    
+                    String averageAmount1 = request.getParameter("average_amount");
+                    String maximumAmount1 = request.getParameter("maximum_amount");
+                    if (averageAmount1 != null && !averageAmount1.isEmpty() && maximumAmount1!= null && !maximumAmount1.isEmpty()) {
+                        int averageAmount2 = Integer.parseInt(averageAmount1);
+                        int maximumAmount2 = Integer.parseInt(maximumAmount1);
+                        
+                        auctionPojo.setAverageAmount(averageAmount2);
+                        auctionPojo.setMaximumAmount(maximumAmount2);
+                    }
+                    auctionPojo.setId(id);
+                    auctionPojo.setName(name2);
+                    auctionPojo.setProductName(productName);
+                    auctionPojo.setImage(images);
+                    auctionPojo.setProductModel(productModel);
+                    auctionPojo.setProductCategory(productCategory);
+                    auctionPojo.setProductCondition(productCondition);
+                    auctionPojo.setProductDescription(productDescription);
+                    auctionPojo.setTerms(terms);
+                    
+                    auctionPojo.setStartDate(startDate);
+                    auctionPojo.setEndDate(endDate);
                     
     				try {
-    					 	
-
-    	                    
-    					JdbcAuction.insertProduct(auctionPojo);
-    					
-    					
-    						
+    					System.out.println("from insert servlet");
+    					System.out.println("afftected rows:"+  JdbcAuction.insertProduct(auctionPojo));
     					
     				 
     				}catch (ClassNotFoundException e) {
@@ -171,9 +185,7 @@ public class AuctionOnline extends HttpServlet {
     					e.printStackTrace();
     				}
     				response.sendRedirect("homepage.jsp");
-                       break; 
-                 
-            
+                       break;         
         }
     }
 }
