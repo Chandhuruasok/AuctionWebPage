@@ -17,7 +17,8 @@ import javax.servlet.http.Part;
 
 import com.auction.model.AuctionPojo;
 import com.auction.util.JdbcAuction;
-//import java.sql.Blob;
+
+
 
 @MultipartConfig
 @WebServlet("/AuctionOnline")
@@ -100,7 +101,7 @@ public class AuctionOnline extends HttpServlet {
                             }
                             else if(email1.endsWith("@gmail.com"))
                             {
-                            	  response.sendRedirect("bid.jsp");
+                            	  response.sendRedirect("bidderviewproduct.jsp");
                             }
                         }
                         else {
@@ -185,7 +186,34 @@ public class AuctionOnline extends HttpServlet {
     					e.printStackTrace();
     				}
     				response.sendRedirect("homepage.jsp");
-                       break;         
+                       break;   
+                case "delete":
+                	int deleteNo=Integer.parseInt(request.getParameter("deleteproductid"));
+                    try {
+                        
+                        JdbcAuction user=new JdbcAuction();
+                        
+                        user.deleteUser(deleteNo);
+                    } catch (NumberFormatException | ClassNotFoundException | SQLException e) {
+                        e.printStackTrace();
+                        
+                    }
+                    response.sendRedirect("admin.jsp");
+                    break;
+//                case "approve":
+//                	int approveNo=Integer.parseInt(request.getParameter("approveid"));
+//                    try {
+//                    	System.out.println("approval"+approveNo);
+//                        
+//                        JdbcAuction user=new JdbcAuction();
+//                        
+//                        user.getApprovedProduct(approveNo);
+//                    } catch (NumberFormatException | ClassNotFoundException | SQLException e) {
+//                        e.printStackTrace();
+//                        
+//                    }
+//                    response.sendRedirect("ApprovalAdmin.jsp");
+//                    break;
         }
     }
 }

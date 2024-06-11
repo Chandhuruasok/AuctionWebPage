@@ -7,8 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.auction.model.AuctionPojo;
+
 
 
 
@@ -105,14 +107,16 @@ public  ArrayList<AuctionPojo>  selectAllUsers() throws ClassNotFoundException, 
 {
 	ArrayList<AuctionPojo>viewuser=new ArrayList<AuctionPojo>();
 	Connection connection=Util.getConnection();
-	String query="select * from user_product;";
+	String query="select * from user_product where is_approval=false;";
 	PreparedStatement ps=connection.prepareStatement(query);
 	ResultSet rs=ps.executeQuery();
 	while(rs.next())
 	{
 		
 		int userId=rs.getInt("id");
+		System.out.println(userId);
 		String userName=rs.getString("name");
+		System.out.println(userName);
 		int productId=rs.getInt("product_id");
 		Blob blob = rs.getBlob("image");
         byte[] imageBytes = blob.getBytes(1, (int) blob.length());
@@ -125,10 +129,78 @@ public  ArrayList<AuctionPojo>  selectAllUsers() throws ClassNotFoundException, 
 		int maximumAmount=rs.getInt("maximum_amount");
 		Date startDate=rs.getDate("bid_start_date");
 		Date endDate=rs.getDate("bid_end_date");
+		
 		viewuser.add(new AuctionPojo(userId,userName,productId,imageBytes,productModel,productCategory,productCondition,productDescription,terms,averageAmount,maximumAmount,startDate,endDate));
+		System.out.println(viewuser.toString());
 	}
 	return viewuser;
 	
 	
 }
+public void deleteUser(int id) throws ClassNotFoundException, SQLException {
+    
+    
+    Connection connection = Util.getConnection();
+    String delete = "delete from user_product where product_id=?";
+    PreparedStatement prepareStatement = connection.prepareStatement(delete);
+    prepareStatement.setInt(1,id);
+    int row = prepareStatement.executeUpdate();
+    System.out.println("deleted row :"+row);
+       
+   
+}
+public void approveProduct(int id) throws SQLException, ClassNotFoundException {
+    Connection connection = Util.getConnection();
+    String sql = "update user_product set is_approval = true where id = ?";
+    PreparedStatement statement = connection.prepareStatement(sql);
+    statement.setInt(1, id);
+    statement.executeUpdate();
+    
+}
+public ArrayList<AuctionPojo> getApprovedProduct() throws ClassNotFoundException, SQLException {
+    ArrayList<AuctionPojo> approvedProducts = new ArrayList<>();
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+    try {
+        connection = Util.getConnection();
+        String query = "SELECT * FROM user_product WHERE is_approval = true";
+        preparedStatement = connection.prepareStatement(query);
+        resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+        
+        	AuctionPojo pojo = new AuctionPojo();
+        	pojo.setId(resultSet.getInt("id"));
+        	pojo.setName(resultSet.getString("name"));
+        	pojo.setProductId(resultSet.getInt("product_id"));
+        	pojo.setProductName(resultSet.getString("product_name"));
+        	Blob blob = resultSet.getBlob("image");
+        	byte[] imageBytes = blob.getBytes(1, (int) blob.length());
+        	pojo.setImage(imageBytes);
+            pojo.setProductModel(resultSet.getString("product_model"));
+            pojo.setProductCategory(resultSet.getString("product_caterogy"));
+            pojo.setProductCondition(resultSet.getString("product_condition"));
+            pojo.setProductDescription(resultSet.getString("product_description"));
+            pojo.setTerms(resultSet.getString("terms_and_conditions"));
+            pojo.setAverageAmount(resultSet.getInt("average_amount"));
+            pojo.setMaximumAmount(resultSet.getInt("maximum_amount"));
+            pojo.setStartDate(resultSet.getDate("bid_start_date"));
+            pojo.setEndDate(resultSet.getDate("bid_end_date"));
+            approvedProducts.add(pojo);
+        }
+    } finally {
+        
+        if (resultSet != null) {
+            resultSet.close();
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
+    }
+    return approvedProducts;
+}
+
 }

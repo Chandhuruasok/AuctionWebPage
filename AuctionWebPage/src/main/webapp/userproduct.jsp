@@ -99,7 +99,7 @@
       <textarea id="terms_and_conditions" name="terms_and_conditions" required></textarea>
     </div>
     <div class="form-group">
-      <label for="average_amount">Average Amount:</label>
+      <label for="average_amount">Bid Start Amount:</label>
       <input type="number" id="average_amount" name="average_amount" required>
     </div>
     <div class="form-group">
@@ -115,7 +115,9 @@
       <input type="date" id="bid_end_date" name="bid_end_date" required>
     </div>
     <div class="form-group">
-    
+    <label for="myfile">ISO Certificate:</label>
+      <input type="file" id="myfile" name="myfile" multiple">
+    </div>
     <% 
     AuctionPojo userId=(AuctionPojo)session.getAttribute("userid"); 
     

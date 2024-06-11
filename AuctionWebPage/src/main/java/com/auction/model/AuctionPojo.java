@@ -12,6 +12,9 @@ public class AuctionPojo {
 	byte[] image;
 	int averageAmount,maximumAmount,id,productId;
 	Date startDate,endDate;
+	public AuctionPojo(){
+		
+	}
 	public String getEmail() {
 		return email;
 	}
@@ -138,10 +141,23 @@ public class AuctionPojo {
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
-	public AuctionPojo(int userId, String userName, int productId, byte[] image2, String productModel2, String productCategory2, String productCondition2, String productDescription2, String terms2, int averageAmount2, int maximumAmount2, Date startDate2, Date endDate2)
-	{
-		
+	public AuctionPojo(int userId, String userName, int productId, byte[] image2, String productModel2, String productCategory2, String productCondition2, String productDescription2, String terms2, int averageAmount2, int maximumAmount2, Date startDate2, Date endDate2) {
+	    this.id = userId;
+	    this.name = userName;
+	    this.productId = productId;
+	    this.image = image2;
+	    this.productModel = productModel2;
+	    this.productCategory = productCategory2;
+	    this.productCondition = productCondition2;
+	    this.productDescription = productDescription2;
+	    this.terms = terms2;
+	    this.averageAmount = averageAmount2;
+	    this.maximumAmount = maximumAmount2;
+	    this.startDate = startDate2;
+	    this.endDate = endDate2;
 	}
+
+
 	@Override
 	public String toString() {
 		return "AuctionPojo [email=" + email + ", name=" + name + ", phoneNumber=" + phoneNumber + ", password="
