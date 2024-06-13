@@ -9,7 +9,7 @@ import com.mysql.cj.jdbc.Blob;
 
 public class AuctionPojo {
 	String email,name,phoneNumber,password,productName,productModel,productCategory,productCondition,productDescription,terms;
-	byte[] image;
+	byte[] image,iso;
 	int averageAmount,maximumAmount,id,productId;
 	Date startDate,endDate;
 	public AuctionPojo(){
@@ -118,6 +118,12 @@ public class AuctionPojo {
 		this.endDate = endDate;
 	}
 	
+	public byte[] getIso() {
+		return iso;
+	}
+	public void setIso(byte[] iso) {
+		this.iso = iso;
+	}
 	public AuctionPojo(String email, String name, String phoneNumber, String password, String productName,
 			String productModel, String productCategory, String productCondition, String productDescription,
 			String terms, byte[] image, int averageAmount, int maximumAmount, int id, int productId, Date startDate,
@@ -141,10 +147,11 @@ public class AuctionPojo {
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
-	public AuctionPojo(int userId, String userName, int productId, byte[] image2, String productModel2, String productCategory2, String productCondition2, String productDescription2, String terms2, int averageAmount2, int maximumAmount2, Date startDate2, Date endDate2) {
+	public AuctionPojo(int userId, String userName, int productId,String productName, byte[] image2, String productModel2, String productCategory2, String productCondition2, String productDescription2, String terms2, int averageAmount2, int maximumAmount2, Date startDate2, Date endDate2, byte[] iso) {
 	    this.id = userId;
 	    this.name = userName;
 	    this.productId = productId;
+	    this.productName = productName;
 	    this.image = image2;
 	    this.productModel = productModel2;
 	    this.productCategory = productCategory2;
@@ -155,6 +162,7 @@ public class AuctionPojo {
 	    this.maximumAmount = maximumAmount2;
 	    this.startDate = startDate2;
 	    this.endDate = endDate2;
+	    this.iso = iso;
 	}
 
 
@@ -165,7 +173,7 @@ public class AuctionPojo {
 				+ productCategory + ", productCondition=" + productCondition + ", productDescription="
 				+ productDescription + ", terms=" + terms + ", image=" + Arrays.toString(image) + ", averageAmount="
 				+ averageAmount + ", maximumAmount=" + maximumAmount + ", id=" + id + ", productId=" + productId
-				+ ", startDate=" + startDate + ", endDate=" + endDate + "]";
+				+ ", startDate=" + startDate + ", endDate=" + endDate + ", iso=" + iso +"]";
 	}
 	
 }

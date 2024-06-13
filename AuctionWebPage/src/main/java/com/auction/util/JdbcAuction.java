@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.auction.model.AuctionPojo;
+import com.auction.model.BidPojo;
+import com.auction.model.ViewAmountPojo;
 
 
 
@@ -84,21 +86,23 @@ public AuctionPojo getId(AuctionPojo auctionPojo)throws ClassNotFoundException, 
 
 public static int insertProduct(AuctionPojo auctionPojo) throws ClassNotFoundException, SQLException {
     Connection connection = Util.getConnection();
-    String query = "insert into user_product (id,name,product_name,image,product_model,product_caterogy,product_condition,product_description,terms_and_conditions,average_amount,maximum_amount,bid_start_date,bid_end_date)values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    String query = "insert into user_product (id,name,product_id,product_name,image,product_model,product_caterogy,product_condition,product_description,terms_and_conditions,average_amount,maximum_amount,bid_start_date,bid_end_date,iso_certification)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     PreparedStatement prepare = connection.prepareStatement(query);
     prepare.setInt(1, auctionPojo.getId());
     prepare.setString(2, auctionPojo.getName());
-    prepare.setString(3, auctionPojo.getProductName());
-    prepare.setBytes(4, auctionPojo.getImage());
-    prepare.setString(5, auctionPojo.getProductModel());
-    prepare.setString(6, auctionPojo.getProductCategory());
-    prepare.setString(7, auctionPojo.getProductCondition());
-    prepare.setString(8, auctionPojo.getProductDescription());
-    prepare.setString(9, auctionPojo.getTerms());
-    prepare.setInt(10, auctionPojo.getAverageAmount());
-    prepare.setInt(11, auctionPojo.getMaximumAmount());
-    prepare.setDate(12, auctionPojo.getStartDate());
-    prepare.setDate(13, auctionPojo.getEndDate());
+    prepare.setInt(3, auctionPojo.getProductId());
+    prepare.setString(4, auctionPojo.getProductName());
+    prepare.setBytes(5, auctionPojo.getImage());
+    prepare.setString(6, auctionPojo.getProductModel());
+    prepare.setString(7, auctionPojo.getProductCategory());
+    prepare.setString(8, auctionPojo.getProductCondition());
+    prepare.setString(9, auctionPojo.getProductDescription());
+    prepare.setString(10, auctionPojo.getTerms());
+    prepare.setInt(11, auctionPojo.getAverageAmount());
+    prepare.setInt(12, auctionPojo.getMaximumAmount());
+    prepare.setDate(13, auctionPojo.getStartDate());
+    prepare.setDate(14, auctionPojo.getEndDate());
+    prepare.setBytes(15, auctionPojo.getIso());
     System.out.println("from insertProduct ...");
     int row =  prepare.executeUpdate();
     return row;
@@ -118,8 +122,10 @@ public  ArrayList<AuctionPojo>  selectAllUsers() throws ClassNotFoundException, 
 		String userName=rs.getString("name");
 		System.out.println(userName);
 		int productId=rs.getInt("product_id");
+		String productName=rs.getString("product_name");
 		Blob blob = rs.getBlob("image");
         byte[] imageBytes = blob.getBytes(1, (int) blob.length());
+        
 		String productModel=rs.getString("product_model");
 		String productCategory=rs.getString("product_caterogy");
 		String productCondition=rs.getString("product_condition");
@@ -129,8 +135,9 @@ public  ArrayList<AuctionPojo>  selectAllUsers() throws ClassNotFoundException, 
 		int maximumAmount=rs.getInt("maximum_amount");
 		Date startDate=rs.getDate("bid_start_date");
 		Date endDate=rs.getDate("bid_end_date");
-		
-		viewuser.add(new AuctionPojo(userId,userName,productId,imageBytes,productModel,productCategory,productCondition,productDescription,terms,averageAmount,maximumAmount,startDate,endDate));
+		Blob blob1 = rs.getBlob("iso_certification");
+        byte[] isoBytes = blob1.getBytes(1, (int) blob1.length());
+		viewuser.add(new AuctionPojo(userId,userName,productId,productName,imageBytes,productModel,productCategory,productCondition,productDescription,terms,averageAmount,maximumAmount,startDate,endDate,isoBytes));
 		System.out.println(viewuser.toString());
 	}
 	return viewuser;
@@ -202,5 +209,33 @@ public ArrayList<AuctionPojo> getApprovedProduct() throws ClassNotFoundException
     }
     return approvedProducts;
 }
-
+public static void insertBidWin(ViewAmountPojo viewAmountPojo,BidPojo bidPojo) throws ClassNotFoundException, SQLException {
+    Connection connection = Util.getConnection();
+    String query = "insert into bidder (id,bidder_name,product_name,bid_amount)values(?,?,?,?)";
+    PreparedStatement prepare = connection.prepareStatement(query);
+    prepare.setInt(1, viewAmountPojo.getUserId());
+    prepare.setString(2, viewAmountPojo.getBidderName());
+    prepare.setString(3, viewAmountPojo.getProductName());
+    prepare.setInt(4, bidPojo.getBidAmount());
+    System.out.println("from insertbidwin ...");
+    prepare.executeUpdate();
+   
+    }
+public static ArrayList<ViewAmountPojo> viewBidAmount() throws ClassNotFoundException, SQLException {
+	Connection connection=Util.getConnection();
+	ArrayList<ViewAmountPojo> viewBidAmount = new ArrayList<>();
+	String query = "SELECT * FROM bidder";
+	PreparedStatement ps=connection.prepareStatement(query);
+	ResultSet resultSet=ps.executeQuery();
+    while (resultSet.next()) {
+    
+    	ViewAmountPojo viewAmountPojo = new ViewAmountPojo();
+    	viewAmountPojo.setUserId(resultSet.getInt("id"));
+    	viewAmountPojo.setBidderName(resultSet.getString("bidder_name"));
+    	viewAmountPojo.setProductName(resultSet.getString("product_name"));
+    	viewAmountPojo.setBidAmount(resultSet.getInt("bid_amount"));
+    	viewBidAmount.add(viewAmountPojo);
+    }
+	return viewBidAmount;
+}
 }

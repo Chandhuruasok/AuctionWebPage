@@ -24,7 +24,7 @@ import com.auction.util.JdbcAuction;
 @WebServlet("/AuctionOnline")
 public class AuctionOnline extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    AuctionPojo auctionPojo = new AuctionPojo(0, null, 0, null, null, null, null, null, null, 0, 0, null, null);
+    AuctionPojo auctionPojo = new AuctionPojo(0, null, 0, null,null, null, null, null, null, null, 0, 0, null, null,null);
     JdbcAuction jdbcAuction = new JdbcAuction();
 
     public AuctionOnline() {
@@ -134,6 +134,18 @@ public class AuctionOnline extends HttpServlet {
                     if(inputStream !=null) {
                         images = inputStream.readAllBytes();
                     }
+                    Part filePart1 = request.getPart("myfile");
+                	InputStream inputStream1=null;
+                    if (filePart1 != null) {
+                       
+                                     
+                        
+                        inputStream1 = filePart1.getInputStream();
+                    }
+                    byte[] iso =null;
+                    if(inputStream1 !=null) {
+                        iso = inputStream1.readAllBytes();
+                    }
                     
                     String productModel=request.getParameter("product_model");
                     String productCategory=request.getParameter("product_category");
@@ -172,7 +184,7 @@ public class AuctionOnline extends HttpServlet {
                     
                     auctionPojo.setStartDate(startDate);
                     auctionPojo.setEndDate(endDate);
-                    
+                    auctionPojo.setIso(iso);
     				try {
     					System.out.println("from insert servlet");
     					System.out.println("afftected rows:"+  JdbcAuction.insertProduct(auctionPojo));
@@ -185,7 +197,7 @@ public class AuctionOnline extends HttpServlet {
     					// TODO Auto-generated catch block
     					e.printStackTrace();
     				}
-    				response.sendRedirect("homepage.jsp");
+    				response.sendRedirect("approvaladmin.jsp");
                        break;   
                 case "delete":
                 	int deleteNo=Integer.parseInt(request.getParameter("deleteproductid"));

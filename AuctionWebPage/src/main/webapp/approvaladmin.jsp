@@ -107,7 +107,10 @@
   </header>
   <nav>
     <ul>
-      
+      <li><a href="homepage.jsp">Home</a></li>
+        <li><a href="Admin">Approved Products</a></li>
+        <li><a href="login.jsp">Login</a></li>
+        <li><a href="about.jsp">About</a></li>
     </ul>
   </nav>
   <section id="view-users">
@@ -138,12 +141,22 @@
             <p>Maximum Bid Amount : <%= pojo.getMaximumAmount() %></p>
             <p>Bid Start Date: <%= pojo.getStartDate() %></p>
             <p>Bid End Date: <%= pojo.getEndDate() %></p>
+          
             <div class="countdown" id="countdown_<%= pojo.getProductId() %>"></div>
             <button type="button" onclick="toggleBidForm('<%= pojo.getProductId() %>')" title="bid">Bid Now</button>
-            <form id="bidForm_<%= pojo.getProductId() %>" class="bid-form" style="display: none;">
-                <label for="bidAmount">Enter Bid Amount:</label>
+            <% 
+    AuctionPojo userId=(AuctionPojo)session.getAttribute("userid"); 
+    
+    %>
+    <input type="hidden" value="<%=userId.getId()%>" name="id">
+            <form id="bidForm_<%= pojo.getProductId() %>" class="bid-form" style="display: none;" action="BidAuction" method="post">
+                <input type="hidden" name="userId" value="<%= userId.getId() %>">
+                <input type="hidden" name="biddername" value="<%= userId.getName() %>">
+                <input type="hidden" name="productname" value="<%= pojo.getProductName() %>">
+                <label for="bidAmount_<%= pojo.getProductId() %>">Enter Bid Amount:</label>
                 <input type="number" id="bidAmount_<%= pojo.getProductId() %>" name="bidAmount" required>
-                <button type="button" onclick="submitBid('<%= pojo.getProductId() %>', <%= pojo.getAverageAmount() %>, <%= pojo.getMaximumAmount() %>)">Submit Bid</button>
+                <button type="submit">Submit Bid</button>
+          
             </form>
         </div>
         <script>

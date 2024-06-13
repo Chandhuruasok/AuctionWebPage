@@ -54,10 +54,49 @@
     .form-group button:hover {
       background-color: black;
     }
+    nav {
+    background-color: green; 
+    overflow: hidden;
+    top: 0;
+    width: 100%;
+    position: fixed;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+}
+
+nav ul li {
+    flex: 1;
+}
+
+nav ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding-top: 40px;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    background-color: #111;
+}
+    
   </style>
 </head>
 <body>
-
+<header>
+<nav>
+      <ul>
+        <li><a href="homepage.jsp">Home</a></li>
+        <li><a href="Admin">Approved Products</a></li>
+        <li><a href="ViewBidAmount">View Bid Amounts</a></li>
+        <li><a href="login.jsp">Login</a></li>
+        <li><a href="about.jsp">About</a></li>
+      </ul>
+    </nav>
+</header>
 <div class="container">
   <h2>Product Details</h2>
   <form action="AuctionOnline" method="post" enctype="multipart/form-data">
@@ -116,7 +155,7 @@
     </div>
     <div class="form-group">
     <label for="myfile">ISO Certificate:</label>
-      <input type="file" id="myfile" name="myfile" multiple">
+      <input type="file" id="myfile" name="myfile" accept="image/*">
     </div>
     <% 
     AuctionPojo userId=(AuctionPojo)session.getAttribute("userid"); 

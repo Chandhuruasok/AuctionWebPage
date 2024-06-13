@@ -85,6 +85,8 @@
       <ul>
         <li><a href="homepage.jsp">Home</a></li>
         <li><a href="Admin">Approved Products</a></li>
+        <li><a href="login.jsp">Login</a></li>
+        <li><a href="about.jsp">About</a></li>
       </ul>
     </nav>
   </header>
@@ -105,6 +107,7 @@
         <th>Maximum Amount</th>
         <th>Bid Start Date</th>
         <th>Bid End Date</th>
+        <th>ISO Certificate</th>
         <th>Action</th>
         <th>Approval</th>
       </thead>
@@ -114,14 +117,17 @@
         ArrayList<AuctionPojo> array = user.selectAllUsers();
         for (AuctionPojo pojo : array) {
           String base64Image = "";
-          if (pojo.getImage() != null) {
+          String base64Image1 = "";
+          if (pojo.getImage() != null && pojo.getIso() != null) {
             base64Image = Base64.getEncoder().encodeToString(pojo.getImage());
+            base64Image1 = Base64.getEncoder().encodeToString(pojo.getIso());
           }
         %>
         <tr>
           <td><%=pojo.getId() %></td>
           <td><%=pojo.getName() %></td>
           <td><%=pojo.getProductId() %></td>
+          <td><%=pojo.getProductName() %></td>
           <td><img class="product-image" src="data:image/jpeg;base64,<%=base64Image%>" alt="Image"></td>
           <td><%= pojo.getProductModel() %></td>
           <td><%= pojo.getProductCategory() %></td>
@@ -131,7 +137,8 @@
           <td><%= pojo.getAverageAmount() %></td>  
           <td><%= pojo.getMaximumAmount() %></td>  
           <td><%= pojo.getStartDate() %></td> 
-          <td><%= pojo.getEndDate() %></td>  
+          <td><%= pojo.getEndDate() %></td> 
+          <td><img class="product-image" src="data:image/jpeg;base64,<%=base64Image1%>" alt="Image"></td> 
           <td>
             <form action="AuctionOnline" method="post">
               <input type="hidden" name="action" value="delete">

@@ -85,6 +85,9 @@
       <ul>
         <li><a href="homepage.jsp">Home</a></li>
         <li><a href="Admin">Approved Products</a></li>
+        <li><a href="ViewBidAmount">View Bid Amounts</a></li>
+        <li><a href="login.jsp">Login</a></li>
+        <li><a href="about.jsp">About</a></li>
       </ul>
     </nav>
   </header>

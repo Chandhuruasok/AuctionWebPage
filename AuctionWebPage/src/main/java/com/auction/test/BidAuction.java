@@ -2,7 +2,6 @@ package com.auction.test;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,21 +11,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.auction.model.AuctionPojo;
 import com.auction.model.BidPojo;
+import com.auction.model.ViewAmountPojo;
 import com.auction.util.JdbcAuction;
 
 /**
- * Servlet implementation class Admin
+ * Servlet implementation class BidAuction
  */
-@WebServlet("/Admin")
-public class Admin extends HttpServlet {
+@WebServlet("/BidAuction")
+public class BidAuction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	 JdbcAuction jdbcAuction = new JdbcAuction(); 
-	 AuctionPojo auctionPojo=new AuctionPojo();
+	JdbcAuction jdbcAuction = new JdbcAuction(); 
+	ViewAmountPojo viewAmountPojo=new ViewAmountPojo();
 	 BidPojo bidPojo=new BidPojo();
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Admin() {
+    public BidAuction() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,52 +37,33 @@ public class Admin extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
-		
-		ArrayList<AuctionPojo> approvedProducts = null;
-        try {
-        	approvedProducts = jdbcAuction.getApprovedProduct();
-} 
-        catch (ClassNotFoundException | SQLException e) {
-        	e.printStackTrace();
-        	}
-        System.out.println("The value is"+ approvedProducts);
-
-        request.setAttribute("approvedProducts", approvedProducts);
-
-
-        request.getRequestDispatcher("approvaladmin.jsp").forward(request, response);
-}
-	     
-	       
-
-	        
-	    
-	
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		   		
-	int approveNo=Integer.parseInt(request.getParameter("approveid"));
-	if(approveNo!=0)
-	{
-    try {
-    	System.out.println("approval"+approveNo);
-        
-        JdbcAuction user=new JdbcAuction();
-        
-        user.approveProduct(approveNo);
-    } catch (NumberFormatException | ClassNotFoundException | SQLException e) {
-        e.printStackTrace();
-        
-    }
+		doGet(request, response);
+		int userId = Integer.parseInt(request.getParameter("userId"));
+	    String bidderName = request.getParameter("biddername");
+	    String productName = request.getParameter("productname");
+	    int bidAmount = Integer.parseInt((request.getParameter("bidAmount")));
+
+	    viewAmountPojo.setUserId(userId);
+	    viewAmountPojo.setBidderName(bidderName);
+	    viewAmountPojo.setProductName(productName);
+	    bidPojo.setBidAmount(bidAmount);
+
+	    try {
+	        JdbcAuction jdbcAuction = new JdbcAuction();
+	        jdbcAuction.insertBidWin(viewAmountPojo,bidPojo);
+	        
+	    } catch (ClassNotFoundException | SQLException e) {
+	        e.printStackTrace();
+	        
+	    }
+	    response.sendRedirect("homepage.jsp");
 	}
-    response.sendRedirect("admin.jsp");
-    
-    
+
 }
-	}
