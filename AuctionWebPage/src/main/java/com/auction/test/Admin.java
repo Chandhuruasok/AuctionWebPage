@@ -1,6 +1,7 @@
 package com.auction.test;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -20,22 +21,23 @@ import com.auction.util.JdbcAuction;
 @WebServlet("/Admin")
 public class Admin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	 JdbcAuction jdbcAuction = new JdbcAuction(); 
-	 AuctionPojo auctionPojo=new AuctionPojo();
-	 BidPojo bidPojo=new BidPojo();
+	 static JdbcAuction jdbcAuction = new JdbcAuction(); 
+	 static AuctionPojo auctionPojo=new AuctionPojo();
+	 static BidPojo bidPojo=new BidPojo();
     /**
      * @see HttpServlet#HttpServlet()
      */
     public Admin() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	 */ 
+    @Override
+	protected void  doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		
@@ -63,15 +65,18 @@ public class Admin extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		
 		   		
 	int approveNo=Integer.parseInt(request.getParameter("approveid"));
 	if(approveNo!=0)
 	{
     try {
-    	System.out.println("approval"+approveNo);
+    	PrintWriter out=response.getWriter();
+		out.println("approval"+approveNo);
+    	
         
         JdbcAuction user=new JdbcAuction();
         

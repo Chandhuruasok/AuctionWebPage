@@ -1,17 +1,26 @@
 package com.auction.model;
 
-import java.io.InputStream;
 import java.sql.Date;
-import java.sql.Time;
 import java.util.Arrays;
-
-import com.mysql.cj.jdbc.Blob;
-
 public class AuctionPojo {
-	String email,name,phoneNumber,password,productName,productModel,productCategory,productCondition,productDescription,terms;
-	byte[] image,iso;
-	int averageAmount,maximumAmount,id,productId;
-	Date startDate,endDate;
+	String email;
+	String name;
+	String phoneNumber;
+	String password;
+	String productName;
+	String productModel;
+	String productCategory;
+	String productCondition;
+	String productDescription;
+	String terms;
+	byte[] image;
+	byte[] iso;
+	int averageAmount;
+	int maximumAmount;
+	int id;
+	int productId;
+	Date startDate;
+	Date endDate;
 	public AuctionPojo(){
 		
 	}

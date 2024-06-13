@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.auction.model.AuctionPojo;
 import com.auction.model.BidPojo;
@@ -293,7 +292,7 @@ public ArrayList<ViewAmountPojo> getApprovedId() throws ClassNotFoundException, 
     ResultSet resultSet = null;
     try {
         connection = Util.getConnection();
-        String query = "SELECT * FROM bidder WHERE winner_status = true";
+        String query = "select * from bidder where winner_status = true";
         preparedStatement = connection.prepareStatement(query);
         resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {

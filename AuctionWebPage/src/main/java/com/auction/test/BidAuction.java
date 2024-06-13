@@ -20,30 +20,28 @@ import com.auction.util.JdbcAuction;
 @WebServlet("/BidAuction")
 public class BidAuction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	JdbcAuction jdbcAuction = new JdbcAuction(); 
-	AuctionPojo auctionPojo=new AuctionPojo();
-	ViewAmountPojo viewAmountPojo=new ViewAmountPojo();
-	 BidPojo bidPojo=new BidPojo();
+	static JdbcAuction jdbcAuction = new JdbcAuction(); 
+	static AuctionPojo auctionPojo=new AuctionPojo();
+	static ViewAmountPojo viewAmountPojo=new ViewAmountPojo();
+	static BidPojo bidPojo=new BidPojo();
     /**
      * @see HttpServlet#HttpServlet()
      */
     public BidAuction() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 	    String productName =request.getParameter("productname");
 	    
 
 	   
-	    System.out.println(productName);
-	    
-
 	    request.setAttribute("productName", productName);
         request.getRequestDispatcher("viewbidders.jsp").forward(request, response);
 
@@ -55,8 +53,9 @@ public class BidAuction extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		doGet(request, response);
 		int userId = Integer.parseInt(request.getParameter("userId"));
 	    String bidderName = request.getParameter("biddername");

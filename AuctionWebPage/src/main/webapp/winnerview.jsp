@@ -1,8 +1,6 @@
-<%@page import="org.apache.tomcat.websocket.PojoClassHolder"%>
 <%@ page import="com.auction.model.ViewAmountPojo" %>
-<%@ page import="com.auction.util.JdbcAuction" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Base64" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,54 +102,50 @@
     .countdown {
       margin-top: 10px;
       font-weight: bold;
-    }
   </style>
 </head>
 <body>
   <header>
-    <h1>Welcome!</h1>
- 
-  <nav>
-    <ul>
-      <li><a href="homepage.jsp">Home</a></li>
-      <li><a href="login.jsp">Login</a></li>
-        
-    </ul>
-  </nav>
-   </header>
+    <h1>Winners List!</h1>
+    <nav>
+      <ul>
+        <li><a href="homepage.jsp">Home</a></li>
+        <li><a href="login.jsp">Login</a></li>
+      </ul>
+    </nav>
+  </header>
   <section id="view-users">
-    <center><h2>Winners</h2></center>
-    <div class="card-container">
-        <%         
-           
-            ArrayList<ViewAmountPojo> approvedIds = (ArrayList<ViewAmountPojo>) request.getAttribute("approvedIds");
-            if (approvedIds != null && !approvedIds.isEmpty()) {
-                for (ViewAmountPojo viewPojo : approvedIds) {
-                    
-                    }
+    <center><h2>Winners List</h2></center>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Bidder ID</th>
+          <th>Bidder Name</th>
+          <th>Product Name</th>
+          <th>Bid Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%
+          ArrayList<ViewAmountPojo> approvedIds = (ArrayList<ViewAmountPojo>) request.getAttribute("approvedIds");
+          if (approvedIds != null && !approvedIds.isEmpty()) {
+            for (ViewAmountPojo viewPojo : approvedIds) {
         %>
-        
-            
-            <p>Bidder ID: <%= viewPojo.UserId() %></p>
-            <p>Bidder Name: <%= viewPojo.getBidderName() %></p>
-            
-            <p>Product Name: <%= viewPojo.getProductName() %></p>
-            
-            <p> Bid Amount : <%= viewPojo.getBidAmount() %></p>
-            
-           
-            <% 
-            ViewAmountPojo userId=(ViewAmountPojo)session.getAttribute("userid"); 
+        <tr>
+          <td><%= viewPojo.getUserId() %></td>
+          <td><%= viewPojo.getBidderName() %></td>
+          <td><%= viewPojo.getProductName() %></td>
+          <td><%= viewPojo.getBidAmount() %></td>
+        </tr>
+        <%
             }
-    %>
-    
-          
-       
+          }
+        %>
+      </tbody>
+    </table>
   </section>
   <footer>
     <p>&copy; 2024 Auction Website</p>
   </footer>
-  
-  
 </body>
 </html>

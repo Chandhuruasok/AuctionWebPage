@@ -47,7 +47,7 @@ public class Winner extends HttpServlet {
         request.setAttribute("approvedIds", approvedIds);
 
 
-        request.getRequestDispatcher("approvaladmin.jsp").forward(request, response);
+        request.getRequestDispatcher("winnerview.jsp").forward(request, response);
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class Winner extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		
 		int approveId=Integer.parseInt(request.getParameter("approveid"));
 		if(approveId!=0)
 		{

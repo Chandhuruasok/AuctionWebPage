@@ -2,9 +2,10 @@ package com.auction.test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -24,23 +25,23 @@ import com.auction.util.JdbcAuction;
 @WebServlet("/AuctionOnline")
 public class AuctionOnline extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    AuctionPojo auctionPojo = new AuctionPojo(0, null, 0, null,null, null, null, null, null, null, 0, 0, null, null,null);
-    JdbcAuction jdbcAuction = new JdbcAuction();
+   static  AuctionPojo auctionPojo = new AuctionPojo(0, null, 0, null,null, null, null, null, null, null, 0, 0, null, null,null);
+   static JdbcAuction jdbcAuction = new JdbcAuction();
 
     public AuctionOnline() {
         super();
     }
-
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.getWriter().append("Served at: ").append(request.getContextPath());
     }
-
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
-        
+        PrintWriter out=response.getWriter();
         
         String action = request.getParameter("action");
-        System.out.println(action);
+        out.println(action);
         if (action != null) {
             switch (action) {
                 case "register":
@@ -63,16 +64,8 @@ public class AuctionOnline extends HttpServlet {
 					{
 						response.sendRedirect("login.jsp");
 					}
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				} catch (NumberFormatException | ClassNotFoundException | SQLException e) {
+			        e.printStackTrace();}
                    break;     
                             
                 case "login":
@@ -189,10 +182,10 @@ public class AuctionOnline extends HttpServlet {
     					
     				 
     				}catch (ClassNotFoundException e) {
-    					// TODO Auto-generated catch block
+
     					e.printStackTrace();
     				} catch (SQLException e) {
-    					// TODO Auto-generated catch block
+
     					e.printStackTrace();
     				}
     				response.sendRedirect("homepage.jsp");
@@ -210,6 +203,8 @@ public class AuctionOnline extends HttpServlet {
                     }
                     response.sendRedirect("admin.jsp");
                     break;
+                    default:
+                    	out.print("wrong case");
 
         }
     }
