@@ -87,7 +87,7 @@ public class AuctionOnline extends HttpServlet {
                         if(JdbcAuction.login(auctionPojo))
                         {
                         	AuctionPojo id=jdbcAuction.getId(auctionPojo);
-                        	System.out.println(id);
+                        	
                         	HttpSession session=request.getSession();
                         	System.out.println(id);
                         	session.setAttribute("userid",id);
@@ -123,9 +123,7 @@ public class AuctionOnline extends HttpServlet {
                 	InputStream inputStream=null;
                     if (filePart != null) {
                        
-                        System.out.println(filePart.getName());
-                        System.out.println(filePart.getSize());
-                        System.out.println(filePart.getContentType());
+                       
                         
                         
                         inputStream = filePart.getInputStream();
@@ -186,8 +184,8 @@ public class AuctionOnline extends HttpServlet {
                     auctionPojo.setEndDate(endDate);
                     auctionPojo.setIso(iso);
     				try {
-    					System.out.println("from insert servlet");
-    					System.out.println("afftected rows:"+  JdbcAuction.insertProduct(auctionPojo));
+    					
+    					  JdbcAuction.insertProduct(auctionPojo);
     					
     				 
     				}catch (ClassNotFoundException e) {
@@ -197,7 +195,7 @@ public class AuctionOnline extends HttpServlet {
     					// TODO Auto-generated catch block
     					e.printStackTrace();
     				}
-    				response.sendRedirect("approvaladmin.jsp");
+    				response.sendRedirect("homepage.jsp");
                        break;   
                 case "delete":
                 	int deleteNo=Integer.parseInt(request.getParameter("deleteproductid"));
@@ -212,20 +210,7 @@ public class AuctionOnline extends HttpServlet {
                     }
                     response.sendRedirect("admin.jsp");
                     break;
-//                case "approve":
-//                	int approveNo=Integer.parseInt(request.getParameter("approveid"));
-//                    try {
-//                    	System.out.println("approval"+approveNo);
-//                        
-//                        JdbcAuction user=new JdbcAuction();
-//                        
-//                        user.getApprovedProduct(approveNo);
-//                    } catch (NumberFormatException | ClassNotFoundException | SQLException e) {
-//                        e.printStackTrace();
-//                        
-//                    }
-//                    response.sendRedirect("ApprovalAdmin.jsp");
-//                    break;
+
         }
     }
 }

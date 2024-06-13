@@ -11,22 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.auction.model.AuctionPojo;
-import com.auction.model.BidPojo;
+import com.auction.model.ViewAmountPojo;
 import com.auction.util.JdbcAuction;
 
 /**
- * Servlet implementation class Admin
+ * Servlet implementation class Winner
  */
-@WebServlet("/Admin")
-public class Admin extends HttpServlet {
+@WebServlet("/Winner")
+public class Winner extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	 JdbcAuction jdbcAuction = new JdbcAuction(); 
-	 AuctionPojo auctionPojo=new AuctionPojo();
-	 BidPojo bidPojo=new BidPojo();
+	JdbcAuction Jdbcauction=new JdbcAuction();
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Admin() {
+    public Winner() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,52 +35,42 @@ public class Admin extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
-		
-		ArrayList<AuctionPojo> approvedProducts = null;
+		ArrayList<ViewAmountPojo> approvedIds = null;
         try {
-        	approvedProducts = jdbcAuction.getApprovedProduct();
+        	approvedIds = Jdbcauction.getApprovedId();
 } 
         catch (ClassNotFoundException | SQLException e) {
         	e.printStackTrace();
         	}
         
 
-        request.setAttribute("approvedProducts", approvedProducts);
+        request.setAttribute("approvedIds", approvedIds);
 
 
         request.getRequestDispatcher("approvaladmin.jsp").forward(request, response);
-}
-	     
-	       
-
-	        
-	    
-	
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		   		
-	int approveNo=Integer.parseInt(request.getParameter("approveid"));
-	if(approveNo!=0)
-	{
-    try {
-    	System.out.println("approval"+approveNo);
-        
-        JdbcAuction user=new JdbcAuction();
-        
-        user.approveProduct(approveNo);
-    } catch (NumberFormatException | ClassNotFoundException | SQLException e) {
-        e.printStackTrace();
-        
-    }
+		doGet(request, response);
+		int approveId=Integer.parseInt(request.getParameter("approveid"));
+		if(approveId!=0)
+		{
+	    try {
+	    	
+	        
+	        JdbcAuction user=new JdbcAuction();
+	        
+	        user.approveId(approveId);
+	    } catch (NumberFormatException | ClassNotFoundException | SQLException e) {
+	        e.printStackTrace();
+	        
+	    }
+		}
+	    response.sendRedirect("loserview.jsp");
 	}
-    response.sendRedirect("admin.jsp");
-    
-    
+
 }
-	}

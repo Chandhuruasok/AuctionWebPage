@@ -37,6 +37,11 @@
       display: inline;
       margin-right: 20px;
     }
+    nav ul li a {
+      color: black;
+      text-decoration: none;
+      font-size: 16px;
+    }
     section {
       padding: 20px;
     }
@@ -104,15 +109,16 @@
 <body>
   <header>
     <h1>Welcome!</h1>
-  </header>
+ 
   <nav>
     <ul>
       <li><a href="homepage.jsp">Home</a></li>
+      <li><a href="login.jsp">Login</a></li>
         <li><a href="Admin">Approved Products</a></li>
-        <li><a href="login.jsp">Login</a></li>
-        <li><a href="about.jsp">About</a></li>
+        <li><a href="ViewBidAmount">View Bid Amounts</a></li>
     </ul>
   </nav>
+   </header>
   <section id="view-users">
     <center><h2>Approved User Products</h2></center>
     <div class="card-container">
@@ -158,6 +164,10 @@
                 <button type="submit">Submit Bid</button>
           
             </form>
+            <form action="BidAuction" method="get">
+        	<input type="hidden" name="productname" value="<%= pojo.getProductName() %>">
+   		 	<button type="submit">View Bidders</button>
+</form>
         </div>
         <script>
           

@@ -33,7 +33,7 @@ public static boolean insert(AuctionPojo auctionPojo) throws ClassNotFoundExcept
             prepare.setString(3, auctionPojo.getPhoneNumber());
             prepare.setString(4, auctionPojo.getPassword());
             prepare.execute();
-            System.out.println("registered  successfully");
+            
             return true;
         } 
         else
@@ -103,7 +103,7 @@ public static int insertProduct(AuctionPojo auctionPojo) throws ClassNotFoundExc
     prepare.setDate(13, auctionPojo.getStartDate());
     prepare.setDate(14, auctionPojo.getEndDate());
     prepare.setBytes(15, auctionPojo.getIso());
-    System.out.println("from insertProduct ...");
+    
     int row =  prepare.executeUpdate();
     return row;
     }
@@ -138,7 +138,7 @@ public  ArrayList<AuctionPojo>  selectAllUsers() throws ClassNotFoundException, 
 		Blob blob1 = rs.getBlob("iso_certification");
         byte[] isoBytes = blob1.getBytes(1, (int) blob1.length());
 		viewuser.add(new AuctionPojo(userId,userName,productId,productName,imageBytes,productModel,productCategory,productCondition,productDescription,terms,averageAmount,maximumAmount,startDate,endDate,isoBytes));
-		System.out.println(viewuser.toString());
+	
 	}
 	return viewuser;
 	
@@ -152,7 +152,7 @@ public void deleteUser(int id) throws ClassNotFoundException, SQLException {
     PreparedStatement prepareStatement = connection.prepareStatement(delete);
     prepareStatement.setInt(1,id);
     int row = prepareStatement.executeUpdate();
-    System.out.println("deleted row :"+row);
+    
        
    
 }
@@ -237,5 +237,86 @@ public static ArrayList<ViewAmountPojo> viewBidAmount() throws ClassNotFoundExce
     	viewBidAmount.add(viewAmountPojo);
     }
 	return viewBidAmount;
+}
+public static ArrayList<ViewAmountPojo> viewBidders(String productName) throws ClassNotFoundException, SQLException {
+	Connection connection=Util.getConnection();
+	ArrayList<ViewAmountPojo> viewBidders = new ArrayList<>();
+	String query = "SELECT * FROM bidder where product_name=?";
+	PreparedStatement ps=connection.prepareStatement(query);
+	 ps.setString(1, productName);
+	ResultSet resultSet=ps.executeQuery();
+    while (resultSet.next()) {
+    
+    	ViewAmountPojo viewAmountPojo = new ViewAmountPojo();
+    	viewAmountPojo.setUserId(resultSet.getInt("id"));
+    	viewAmountPojo.setBidderName(resultSet.getString("bidder_name"));
+    	viewAmountPojo.setProductName(resultSet.getString("product_name"));
+    	viewAmountPojo.setBidAmount(resultSet.getInt("bid_amount"));
+    	viewBidders.add(viewAmountPojo);
+    	System.out.println(viewBidders);
+    }
+	return viewBidders;
+}
+public void approveId(int id) throws SQLException, ClassNotFoundException {
+    Connection connection = Util.getConnection();
+    String sql = "update bidder set winner_status = true where id = ?";
+    PreparedStatement statement = connection.prepareStatement(sql);
+    statement.setInt(1, id);
+    statement.executeUpdate();
+    
+}
+public  ArrayList<ViewAmountPojo>  Losers() throws ClassNotFoundException, SQLException
+{
+	ArrayList<ViewAmountPojo>viewloser=new ArrayList<ViewAmountPojo>();
+	Connection connection=Util.getConnection();
+	String query="select * from bidder where winner_status=false;";
+	PreparedStatement ps=connection.prepareStatement(query);
+	ResultSet rs=ps.executeQuery();
+	while(rs.next())
+	{
+		
+		int userId=rs.getInt("id");
+		String bidderName=rs.getString("bidder_name");
+		String productName=rs.getString("product_name");
+		int bidAmount=rs.getInt("bid_amount");
+		viewloser.add(new ViewAmountPojo(userId,bidderName,productName,bidAmount));
+	
+	}
+	return viewloser;
+	
+	
+}
+public ArrayList<ViewAmountPojo> getApprovedId() throws ClassNotFoundException, SQLException {
+    ArrayList<ViewAmountPojo> approvedId = new ArrayList<>();
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+    try {
+        connection = Util.getConnection();
+        String query = "SELECT * FROM bidder WHERE winner_status = true";
+        preparedStatement = connection.prepareStatement(query);
+        resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+        
+        	ViewAmountPojo pojo = new ViewAmountPojo();
+        	pojo.setUserId(resultSet.getInt("id"));
+        	pojo.setBidderName(resultSet.getString("bidder_name"));
+         	pojo.setProductName(resultSet.getString("product_name"));
+        	pojo.setBidAmount(resultSet.getInt("bid_amount"));
+        	approvedId.add(pojo);
+        }
+    } finally {
+        
+        if (resultSet != null) {
+            resultSet.close();
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
+    }
+    return approvedId;
 }
 }

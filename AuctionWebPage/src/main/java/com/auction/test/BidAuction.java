@@ -21,6 +21,7 @@ import com.auction.util.JdbcAuction;
 public class BidAuction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	JdbcAuction jdbcAuction = new JdbcAuction(); 
+	AuctionPojo auctionPojo=new AuctionPojo();
 	ViewAmountPojo viewAmountPojo=new ViewAmountPojo();
 	 BidPojo bidPojo=new BidPojo();
     /**
@@ -35,9 +36,21 @@ public class BidAuction extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	
+	    String productName =request.getParameter("productname");
+	    
+
+	   
+	    System.out.println(productName);
+	    
+
+	    request.setAttribute("productName", productName);
+        request.getRequestDispatcher("viewbidders.jsp").forward(request, response);
+
+	    
 	}
+
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
