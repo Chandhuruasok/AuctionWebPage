@@ -2,6 +2,8 @@
 <%@ page import="com.auction.util.JdbcAuction"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Base64"%>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,6 +136,11 @@
                     if (pojo.getImage() != null) {
                         base64Image = Base64.getEncoder().encodeToString(pojo.getImage());
                     }
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date currentDate = new Date();
+                    String currentDateString = sdf.format(currentDate);
+                    String startDateString = sdf.format(pojo.getStartDate());
+                    String endDateString = sdf.format(pojo.getEndDate());
         %>
 			<div class="card">
 				<img class="product-image"
@@ -180,61 +187,103 @@
     AuctionPojo userName=(AuctionPojo)session.getAttribute("username"); 
     
     %>
+<%  
+if (endDateString.compareTo(currentDateString) > 0) { 
+%>
+<form action="ViewBidders" method="get">
+  <input type="hidden" name="productname" value="<%= pojo.getProductName() %>">
+  <button type="submit">View Bidders</button>
+</form>
+<% } else { %>
+<p>Auction ended</p>
 
-
-				<form action="UserViewBidders" method="get">
-					<input type="hidden" name="productname"
-						value="<%= pojo.getProductName() %>">
-					<button type="submit">View Bidders</button>
-				</form>
-			</div>
-		
-		<%
-                }
-            }
-		%>
-		</div>
-	</section>
-	<footer>
-		<p>&copy; 2024 Auction Website</p>
-	</footer>
+<form action="ViewWinners" method="get">
+  <input type="hidden" name="productname" value="<%= pojo.getProductName() %>">
+  <button type="submit">View Winners</button>
+</form>
+<% } %>
+</div>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const searchInput = document.getElementById('searchInput');
-      const noProductsFoundMessage = document.getElementById('noProductsFoundMessage');
+var startDate_<%= pojo.getProductId() %> = new Date('<%= pojo.getStartDate() %>').getTime();
+var endDate_<%= pojo.getProductId() %> = new Date('<%= pojo.getEndDate() %>').getTime();
+var countdownElement_<%= pojo.getProductId() %> = document.getElementById('countdown_<%= pojo.getProductId() %>');
+var countdownInterval_<%= pojo.getProductId() %>;
 
-      searchInput.addEventListener('input', function () {
-        const searchValue = searchInput.value.toLowerCase();
-        const cards = document.querySelectorAll('.card');
-        let visibleCardCount = 0;
+function updateCountdown_<%= pojo.getProductId() %>() {
+var now = new Date().getTime();
+var distanceStart = startDate_<%= pojo.getProductId() %> - now;
+var distanceEnd = endDate_<%= pojo.getProductId() %> - now;
 
-        cards.forEach(card => {
-          const productCategory = card.querySelector('p:nth-of-type(4)').textContent.toLowerCase();
-          if (productCategory.includes(searchValue)) {
-            card.style.display = '';
-            visibleCardCount++;
-          } else {
-            card.style.display = 'none';
-          }
-        });
+var days, hours, minutes, seconds;
 
-        if (visibleCardCount === 0) {
-          noProductsFoundMessage.style.display = 'block';
-        } else {
-          noProductsFoundMessage.style.display = 'none';
-        }
-      });
-    });
-    
-    function toggleBidForm(productCategory) {
-      var bidForm = document.getElementById("bidForm_" + productCategory);
-      if (bidForm.style.display === "none" || bidForm.style.display === "") {
-        bidForm.style.display = "block";
-      } else {
-        bidForm.style.display = "none";
-      }
-    }
-  </script>
+if (distanceStart > 0) {
+  days = Math.floor(distanceStart / (1000 * 60 * 60 * 24));
+  hours = Math.floor((distanceStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  minutes = Math.floor((distanceStart % (1000 * 60 * 60)) / (1000 * 60));
+  seconds = Math.floor((distanceStart % (1000 * 60)) / 1000);
+  countdownElement_<%= pojo.getProductId() %>.innerHTML = "Starts in: " + days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+} else if (distanceEnd > 0) {
+  days = Math.floor(distanceEnd / (1000 * 60 * 60 * 24));
+  hours = Math.floor((distanceEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  minutes = Math.floor((distanceEnd % (1000 * 60 * 60)) / (1000 * 60));
+  seconds = Math.floor((distanceEnd % (1000 * 60)) / 1000);
+  countdownElement_<%= pojo.getProductId() %>.innerHTML = "Ends in: " + days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+} else {
+  clearInterval(countdownInterval_<%= pojo.getProductId() %>);
+  countdownElement_<%= pojo.getProductId() %>.innerHTML = "Auction ended";
+}
+}
 
+countdownInterval_<%= pojo.getProductId() %> = setInterval(updateCountdown_<%= pojo.getProductId() %>, 1000);
+updateCountdown_<%= pojo.getProductId() %>();
+</script>
+<%                
+} 
+} else { 
+%>
+<p>No properties have been approved yet.</p>
+<% 
+} 
+%>
+</div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+const searchInput = document.getElementById('searchInput');
+const noProductsFoundMessage = document.getElementById('noProductsFoundMessage');
+
+searchInput.addEventListener('input', function () {
+const searchValue = searchInput.value.toLowerCase();
+const cards = document.querySelectorAll('.card');
+let visibleCardCount = 0;
+
+cards.forEach(card => {
+const productCategory = card.querySelector('p:nth-of-type(4)').textContent.toLowerCase();
+if (productCategory.includes(searchValue)) {
+  card.style.display = '';
+  visibleCardCount++;
+} else {
+  card.style.display = 'none';
+}
+});
+
+if (visibleCardCount === 0) {
+noProductsFoundMessage.style.display = 'block';
+} else {
+noProductsFoundMessage.style.display = 'none';
+}
+});
+});
+
+function toggleBidForm(productCategory) {
+var bidForm = document.getElementById("bidForm_" + productCategory);
+if (bidForm.style.display === "none" || bidForm.style.display === "") {
+bidForm.style.display = "block";
+} else {
+bidForm.style.display = "none";
+}
+}
+</script>
 </body>
 </html>

@@ -45,7 +45,7 @@
     nav ul li a {
       color: black;
       text-decoration: none;
-      font-size: 16px;
+      font-size: 30px;
     }
     section {
       padding-top: 60px;
@@ -131,11 +131,13 @@
         <input id="searchInput" type="text" name="search" placeholder="Search Product Category...">
         <button type="submit">Search</button>
       </form>
+      <li><a href="login.jsp">Logout</a></li>
     </nav>
   </header>
   <section id="view-users">
     <h2>Approved Products</h2>
     <div class="card-container">
+    <%-- <% String bidStatus=null; %> --%>
       <%         
         JdbcAuction jdbcAuction = new JdbcAuction();
         ArrayList<AuctionPojo> approvedProducts = jdbcAuction.getApprovedProduct();
@@ -169,6 +171,7 @@
         AuctionPojo user1=(AuctionPojo)session.getAttribute("username") ;
           if (endDateString.compareTo(currentDateString) > 0) { 
         %>
+      <%--  <% bidStatus= "true"; %> --%>
           <button type="button" onclick="toggleBidForm('<%= pojo.getProductName() %>')" title="bid">Bid Now</button>
           <form id="bidForm_<%= pojo.getProductName() %>" class="bid-form" style="display: none;" action="BidAuction" method="post">
             <input type="hidden" name="userId" value="<%=user.getId() %>">
@@ -178,14 +181,21 @@
             <input type="number" id="bidAmount_<%= pojo.getProductName() %>" name="bidAmount" required>
             <button type="submit">Submit Bid</button>
           </form>
-        <% } else { %>
-          <p>Auction ended</p>
-          
-        <% } %>
-        <form action="ViewBidders" method="get">
+           <form action="ViewBidders" method="get">
           <input type="hidden" name="productname" value="<%= pojo.getProductName() %>">
+          <%-- <input type="hidden" name="bidStatus" value="<%=  bidStatus%>"> --%>
           <button type="submit">View Bidders</button>
         </form>
+        <% } else { %>
+          <p>Auction ended</p>
+            <%-- <% bidStatus= "false"; %> --%>
+             <form action="ViewWinners" method="get">
+          <input type="hidden" name="productname" value="<%= pojo.getProductName() %>">
+         <%--  <input type="hidden" name="bidStatus" value="<%=  bidStatus%>"> --%>
+          <button type="submit">View Winners</button>
+        </form>
+        <% } %>
+        
       </div>
       <script>
         var startDate_<%= pojo.getProductId() %> = new Date('<%= pojo.getStartDate() %>').getTime();

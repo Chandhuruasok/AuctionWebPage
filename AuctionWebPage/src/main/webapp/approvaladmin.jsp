@@ -145,11 +145,12 @@
           </form>
         <% } else { %>
           <p>Auction ended</p>
-        <% } %>
-        <form action="ViewBidders" method="get">
+        
+        <form action="ViewWinners" method="get">
             <input type="hidden" name="productname" value="<%= pojo.getProductName() %>">
-            <button type="submit">View Bidders</button>
+            <button type="submit">View Winners</button>
           </form>
+          <% } %>
       </div>
       <script>
         var startDate_<%= pojo.getProductId() %> = new Date('<%= pojo.getStartDate() %>').getTime();

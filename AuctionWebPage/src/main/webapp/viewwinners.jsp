@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 					pageEncoding="ISO-8859-1"%>
 <%@ page import="com.auction.model.ViewAmountPojo"%>
+<%@ page import="com.auction.model.AuctionPojo"%>
 <%@ page import="com.auction.util.JdbcAuction"%>
 <%@ page import="java.util.ArrayList"%>
 
@@ -92,12 +93,11 @@ footer {
 				</head>
 				<body>
 					<header>
-						<h1>View Bidders</h1>
+						<h1>View Winners</h1>
 						<nav>
 							<ul>
 								<li><a href="homepage.jsp">Home</a></li>
-								
-								<li><a href="about.jsp">About</a></li>
+								<li><a href="login.jsp">Logout</a></li>
 							</ul>
 						</nav>
 					</header>
@@ -114,7 +114,7 @@ footer {
 								<% 
         JdbcAuction user=new JdbcAuction();
 								String product=(String)request.getAttribute("productName");
-        ArrayList<ViewAmountPojo> array = user.viewBidders(product);
+        ArrayList<ViewAmountPojo> array = user.viewWinners(product);
         for (ViewAmountPojo pojo : array) {
           
           
@@ -124,10 +124,15 @@ footer {
 									<td><%=pojo.getBidderName() %></td>
 									<td><%=pojo.getProductName() %></td>
 									<td><%=pojo.getBidAmount() %></td>
-									<td>
-								
-            					</td>
-								</tr>
+									</tr>
+												<% 
+    AuctionPojo userId=(AuctionPojo)session.getAttribute("userid"); 
+    
+    %>
+    <% 
+    AuctionPojo userName=(AuctionPojo)session.getAttribute("username"); 
+    
+    %>
 								<% 
         }
         %>

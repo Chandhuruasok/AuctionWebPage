@@ -367,4 +367,45 @@ private AuctionPojo extractProductFromResultSet(ResultSet resultSet) throws SQLE
     }
     return product;
 }
+public static ArrayList<ViewAmountPojo> viewWinners(String productName) throws ClassNotFoundException, SQLException {
+    Connection connection = null;
+    PreparedStatement ps = null;
+    ResultSet resultSet = null;
+    ArrayList<ViewAmountPojo> viewWinners = new ArrayList<>();
+
+    try {
+        connection = Util.getConnection();
+        String sql = "SELECT bidder_name, product_name, MAX(bid_amount) AS bid_amount "
+                + "FROM bidder "
+                + "WHERE product_name = ? "
+                + "GROUP BY product_name,bidder_name"+" limit 1";
+
+
+        ps = connection.prepareStatement(sql);
+        ps.setString(1, productName);
+
+        resultSet = ps.executeQuery();
+
+        while (resultSet.next()) {
+            ViewAmountPojo viewAmountPojo = new ViewAmountPojo();
+            viewAmountPojo.setBidderName(resultSet.getString("bidder_name"));
+            viewAmountPojo.setProductName(resultSet.getString("product_name"));
+            viewAmountPojo.setBidAmount(resultSet.getInt("bid_amount"));
+            viewWinners.add(viewAmountPojo);
+        }
+    } finally {
+       
+        if (resultSet != null) {
+            resultSet.close();
+        }
+        if (ps != null) {
+            ps.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
+    }
+
+    return viewWinners;
+}
 }
