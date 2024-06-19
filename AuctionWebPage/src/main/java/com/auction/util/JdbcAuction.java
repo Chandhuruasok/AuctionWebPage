@@ -93,6 +93,7 @@ public AuctionPojo getId(AuctionPojo auctionPojo)throws ClassNotFoundException, 
 public static int insertProduct(AuctionPojo auctionPojo) throws ClassNotFoundException, SQLException {
     Connection connection = Util.getConnection();
     String query = "insert into user_product (id,name,product_name,image,product_model,product_caterogy,product_condition,product_description,terms_and_conditions,average_amount,bid_start_date,bid_end_date,iso_certification)values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    
     PreparedStatement prepare = connection.prepareStatement(query);
     prepare.setInt(1, auctionPojo.getId());
     prepare.setString(2, auctionPojo.getName());
@@ -109,6 +110,9 @@ public static int insertProduct(AuctionPojo auctionPojo) throws ClassNotFoundExc
     prepare.setBytes(13, auctionPojo.getIso());
     
     
+    
+    
+    
     return prepare.executeUpdate();
     }
 public  ArrayList<AuctionPojo>  selectAllUsers() throws ClassNotFoundException, SQLException
@@ -117,7 +121,7 @@ public  ArrayList<AuctionPojo>  selectAllUsers() throws ClassNotFoundException, 
 	Connection connection=Util.getConnection();
 	try
 	{
-	PreparedStatement ps=connection.prepareStatement("select * from user_product where is_approval=false;");
+	PreparedStatement ps=connection.prepareStatement("select id,name,product_id,product_name,image,product_model,product_caterogy,product_condition,product_description,terms_and_conditions,average_amount,bid_start_date,bid_start_date,iso_certification from user_product where is_approval=false;");
 	ResultSet rs=ps.executeQuery();
 	while(rs.next())
 	{
@@ -183,7 +187,7 @@ public ArrayList<AuctionPojo> getApprovedProduct() throws ClassNotFoundException
     ResultSet resultSet = null;
     try {
         connection = Util.getConnection();
-        preparedStatement = connection.prepareStatement("select * from user_product where is_approval = true");
+        preparedStatement = connection.prepareStatement("select name,product_name,product_id,image,product_model,product_caterogy,product_condition,product_description,terms_and_conditions,average_amount,bid_start_date,bid_start_date from user_product where is_approval = true");
         resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
         
@@ -234,7 +238,7 @@ public static ArrayList<ViewAmountPojo> viewBidAmount() throws ClassNotFoundExce
 	Connection connection=Util.getConnection();
 	ArrayList<ViewAmountPojo> viewBidAmount = new ArrayList<>();
 	
-	PreparedStatement ps=connection.prepareStatement("select * from bidder");
+	PreparedStatement ps=connection.prepareStatement("select id,bidder_name,product_name,bid_amount from bidder");
 	ResultSet resultSet=ps.executeQuery();
     while (resultSet.next()) {
     
@@ -252,7 +256,7 @@ public static ArrayList<ViewAmountPojo> viewBidders(String productName) throws C
 	ArrayList<ViewAmountPojo> viewBidders = new ArrayList<>();
 	try
 	{
-	PreparedStatement ps=connection.prepareStatement("select * from bidder where product_name=?");
+	PreparedStatement ps=connection.prepareStatement("select id,bidder_name,product_name,bid_amount from bidder where product_name=?");
 	 ps.setString(1, productName);
 	ResultSet resultSet=ps.executeQuery();
     while (resultSet.next()) {

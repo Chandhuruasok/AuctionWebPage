@@ -84,8 +84,8 @@ public class AuctionOnline extends HttpServlet {
                         	AuctionPojo userName=jdbcAuction.getId(auctionPojo);                        	
                         	HttpSession session=request.getSession();
                         	
-                        	session.setAttribute("userid",id);
-                        	session.setAttribute("username",userName);
+                        	session.setAttribute("userid",id.getId());
+                        	session.setAttribute("username",userName.getName());
                             if(email1.endsWith("@bidderboy.com")) 
                             {
                               response.sendRedirect("admin.jsp");
@@ -209,4 +209,5 @@ public class AuctionOnline extends HttpServlet {
         }
     }
 }
+
 }
