@@ -25,7 +25,7 @@ import com.auction.util.JdbcAuction;
 @WebServlet("/AuctionOnline")
 public class AuctionOnline extends HttpServlet {
     private static final long serialVersionUID = 1L;
-   static  AuctionPojo auctionPojo = new AuctionPojo(0, null, 0, null,null, null, null, null, null, null, 0, 0, null, null,null);
+   static  AuctionPojo auctionPojo = new AuctionPojo(0, null, 0, null,null, null, null, null, null, null, 0,  null, null,null);
    static JdbcAuction jdbcAuction = new JdbcAuction();
 
     public AuctionOnline() {
@@ -41,7 +41,8 @@ public class AuctionOnline extends HttpServlet {
         PrintWriter out=response.getWriter();
         
         String action = request.getParameter("action");
-        out.println(action);
+        
+        
         if (action != null) {
             switch (action) {
                 case "register":
@@ -80,15 +81,16 @@ public class AuctionOnline extends HttpServlet {
                         if(JdbcAuction.login(auctionPojo))
                         {
                         	AuctionPojo id=jdbcAuction.getId(auctionPojo);
-                        	
+                        	AuctionPojo userName=jdbcAuction.getId(auctionPojo);                        	
                         	HttpSession session=request.getSession();
-                        	System.out.println(id);
+                        	
                         	session.setAttribute("userid",id);
+                        	session.setAttribute("username",userName);
                             if(email1.endsWith("@bidderboy.com")) 
                             {
                               response.sendRedirect("admin.jsp");
                             }
-                            else if(email1.endsWith("@user.com"))
+                            else if(email1.endsWith("@seller.com"))
                             {
                             	  response.sendRedirect("userproduct.jsp");
                             }
@@ -110,8 +112,9 @@ public class AuctionOnline extends HttpServlet {
                 case "user":
                 	 int id=Integer.parseInt(request.getParameter("id"));
 
-                	String name2 = request.getParameter("name");
+                	String name2 = request.getParameter("username");
                 	String productName=request.getParameter("product_name");
+                	
                 	Part filePart = request.getPart("image");
                 	InputStream inputStream=null;
                     if (filePart != null) {
@@ -155,13 +158,13 @@ public class AuctionOnline extends HttpServlet {
                         }
                     
                     String averageAmount1 = request.getParameter("average_amount");
-                    String maximumAmount1 = request.getParameter("maximum_amount");
-                    if (averageAmount1 != null && !averageAmount1.isEmpty() && maximumAmount1!= null && !maximumAmount1.isEmpty()) {
+                    
+                    if (averageAmount1 != null && !averageAmount1.isEmpty() ) {
                         int averageAmount2 = Integer.parseInt(averageAmount1);
-                        int maximumAmount2 = Integer.parseInt(maximumAmount1);
+                        
                         
                         auctionPojo.setAverageAmount(averageAmount2);
-                        auctionPojo.setMaximumAmount(maximumAmount2);
+                        
                     }
                     auctionPojo.setId(id);
                     auctionPojo.setName(name2);
@@ -179,16 +182,13 @@ public class AuctionOnline extends HttpServlet {
     				try {
     					
     					  JdbcAuction.insertProduct(auctionPojo);
-    					
+    					  response.sendRedirect("userproduct.jsp");
     				 
-    				}catch (ClassNotFoundException e) {
+    				}catch (ClassNotFoundException  | SQLException e) {
 
     					e.printStackTrace();
-    				} catch (SQLException e) {
-
-    					e.printStackTrace();
-    				}
-    				response.sendRedirect("homepage.jsp");
+    				} 
+    				
                        break;   
                 case "delete":
                 	int deleteNo=Integer.parseInt(request.getParameter("deleteproductid"));

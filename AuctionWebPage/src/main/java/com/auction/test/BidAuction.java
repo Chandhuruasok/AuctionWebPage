@@ -43,7 +43,7 @@ public class BidAuction extends HttpServlet {
 
 	   
 	    request.setAttribute("productName", productName);
-        request.getRequestDispatcher("viewbidders.jsp").forward(request, response);
+        request.getRequestDispatcher("adminviewbidders.jsp").forward(request, response);
 
 	    
 	}
@@ -56,26 +56,30 @@ public class BidAuction extends HttpServlet {
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		doGet(request, response);
-		int userId = Integer.parseInt(request.getParameter("userId"));
+		
+    	
+	    int userId = Integer.parseInt(request.getParameter("userId"));
+	    
 	    String bidderName = request.getParameter("biddername");
+    	
 	    String productName = request.getParameter("productname");
 	    int bidAmount = Integer.parseInt((request.getParameter("bidAmount")));
-
+	    
 	    viewAmountPojo.setUserId(userId);
 	    viewAmountPojo.setBidderName(bidderName);
 	    viewAmountPojo.setProductName(productName);
 	    bidPojo.setBidAmount(bidAmount);
 
 	    try {
-	        JdbcAuction jdbcAuction = new JdbcAuction();
-	        jdbcAuction.insertBidWin(viewAmountPojo,bidPojo);
+	        JdbcAuction jdbcAuction1 = new JdbcAuction();
+	        jdbcAuction1.insertBidWin(viewAmountPojo,bidPojo);
 	        
 	    } catch (ClassNotFoundException | SQLException e) {
 	        e.printStackTrace();
 	        
 	    }
-	    response.sendRedirect("homepage.jsp");
+	    response.sendRedirect("bidderviewproduct.jsp");
 	}
+    
 
 }

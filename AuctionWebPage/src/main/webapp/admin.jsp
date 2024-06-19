@@ -85,7 +85,6 @@
       <ul>
         <li><a href="homepage.jsp">Home</a></li>
         <li><a href="Admin">Approved Products</a></li>
-        <li><a href="login.jsp">Login</a></li>
         <li><a href="about.jsp">About</a></li>
       </ul>
     </nav>
@@ -93,8 +92,8 @@
   <section id="view-users">
     <table border="1">
       <thead>
-        <th>User ID</th>
-        <th>User Name</th>
+        <th>Seller ID</th>
+        <th>Seller Name</th>
         <th>Product ID</th>
         <th>Product Name</th>
         <th>Product Image</th>
@@ -103,8 +102,7 @@
         <th>Product Condition</th>
         <th>Product Description</th>
         <th>Terms and Conditions</th>
-        <th>Average Amount</th>
-        <th>Maximum Amount</th>
+        <th>Starting Bid Amount</th>
         <th>Bid Start Date</th>
         <th>Bid End Date</th>
         <th>ISO Certificate</th>
@@ -128,17 +126,17 @@
           <td><%=pojo.getName() %></td>
           <td><%=pojo.getProductId() %></td>
           <td><%=pojo.getProductName() %></td>
-          <td><img class="product-image" src="data:image/jpeg;base64,<%=base64Image%>" alt="Image"></td>
+          <td><img class="product-image" src="data:image/jpeg;base64,<%=base64Image%>" alt=""></td>
           <td><%= pojo.getProductModel() %></td>
           <td><%= pojo.getProductCategory() %></td>
           <td><%= pojo.getProductCondition() %></td>
           <td><%= pojo.getProductDescription() %></td> 
           <td><%= pojo.getTerms() %></td>  
           <td><%= pojo.getAverageAmount() %></td>  
-          <td><%= pojo.getMaximumAmount() %></td>  
+            
           <td><%= pojo.getStartDate() %></td> 
           <td><%= pojo.getEndDate() %></td> 
-          <td><img class="product-image" src="data:image/jpeg;base64,<%=base64Image1%>" alt="Image"></td> 
+          <td><img class="product-image" src="data:image/jpeg;base64,<%=base64Image1%>" alt=""></td> 
           <td>
             <form action="AuctionOnline" method="post">
               <input type="hidden" name="action" value="delete">

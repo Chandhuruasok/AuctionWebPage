@@ -9,20 +9,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.auction.model.ViewAmountPojo;
 import com.auction.util.JdbcAuction;
 
 /**
- * Servlet implementation class Winner
+ * Servlet implementation class UserViewWinner
  */
-@WebServlet("/Winner")
-public class Winner extends HttpServlet {
+@WebServlet("/UserViewWinner")
+public class UserViewWinner extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	static JdbcAuction Jdbcauction=new JdbcAuction();
-    /**
+	static JdbcAuction jdbcAuction=new JdbcAuction();
+	/**
      * @see HttpServlet#HttpServlet()
      */
-    public Winner() {
+    public UserViewWinner() {
         super();
 
     }
@@ -36,7 +37,7 @@ public class Winner extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		ArrayList<ViewAmountPojo> approvedIds = null;
         try {
-        	approvedIds = Jdbcauction.getApprovedId();
+        	approvedIds = jdbcAuction.getApprovedId();
 } 
         catch (ClassNotFoundException | SQLException e) {
         	e.printStackTrace();
@@ -46,32 +47,15 @@ public class Winner extends HttpServlet {
         request.setAttribute("approvedIds", approvedIds);
 
 
-        request.getRequestDispatcher("winnerview.jsp").forward(request, response);
+        request.getRequestDispatcher("userviewwinner.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@Override
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		
-		int approveId=Integer.parseInt(request.getParameter("approveid"));
-		if(approveId!=0)
-		{
-	    try {
-	    	
-	        
-	        JdbcAuction user=new JdbcAuction();
-	        
-	        user.approveId(approveId);
-	        response.sendRedirect("loserview.jsp");
-	    } catch (NumberFormatException | ClassNotFoundException | SQLException e) {
-	        e.printStackTrace();
-	        
-	    }
-		}
-	   
+		doGet(request, response);
 	}
 
 }

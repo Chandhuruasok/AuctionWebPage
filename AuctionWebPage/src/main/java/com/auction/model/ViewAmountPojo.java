@@ -2,7 +2,8 @@ package com.auction.model;
 
 public class ViewAmountPojo {
 int userId;
-String bidderName,productName;
+String bidderName;
+String productName;
 int bidAmount;
 public int getUserId() {
 	return userId;

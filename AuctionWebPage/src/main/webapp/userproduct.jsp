@@ -90,21 +90,27 @@ nav ul li a:hover {
 <nav>
       <ul>
         <li><a href="homepage.jsp">Home</a></li>
-        <li><a href="Admin">Approved Products</a></li>
-        <li><a href="ViewBidAmount">View Bid Amounts</a></li>
-        <li><a href="login.jsp">Login</a></li>
+        <li><a href="User">View Approved Products</a></li>
         <li><a href="about.jsp">About</a></li>
       </ul>
     </nav>
 </header>
 <div class="container">
   <h2>Product Details</h2>
-  <form action="AuctionOnline" method="post" enctype="multipart/form-data">
+  <form id="auctionForm" action="AuctionOnline" method="post" enctype="multipart/form-data">
     <div class="form-group">
-      <label for="name">User Name:</label>
-      <input type="text" id="name" name="name" required>
-    </div>
+    <% 
+    AuctionPojo userName=(AuctionPojo)session.getAttribute("username"); 
     
+    %>
+    <input type="hidden" value="<%=userName.getName()%>" name="username">
+      <label for="name">Seller Name:</label>
+      <input type="text" id="name" name="username" value="<%= userName.getName() %>" readonly>
+    </div>
+    <div class="form-group">
+      <label for="product_category">Product Category:</label>
+      <input type="text" id="product_category" name="product_category">
+    </div>
     <div class="form-group">
       <label for="product_name">Product Name:</label>
       <input type="text" id="product_name" name="product_name" required>
@@ -117,10 +123,7 @@ nav ul li a:hover {
       <label for="product_model">Product Model:</label>
       <input type="text" id="product_model" name="product_model">
     </div>
-    <div class="form-group">
-      <label for="product_category">Product Category:</label>
-      <input type="text" id="product_category" name="product_category">
-    </div>
+    
     <div class="form-group">
       <label for="product_condition">Product Condition:</label>
       <select id="product_condition" name="product_condition">
@@ -141,11 +144,7 @@ nav ul li a:hover {
       <label for="average_amount">Bid Start Amount:</label>
       <input type="number" id="average_amount" name="average_amount" required>
     </div>
-    <div class="form-group">
-      <label for="maximum_amount">Maximum Amount:</label>
-      <input type="number" id="maximum_amount" name="maximum_amount" required>
-    </div>
-    <div class="form-group">
+     <div class="form-group">
       <label for="bid_start_date">Bid Start Date:</label>
       <input type="date" id="bid_start_date" name="bid_start_date" required>
     </div>
@@ -163,13 +162,25 @@ nav ul li a:hover {
     %>
     <input type="hidden" value="<%=userId.getId()%>" name="id">
     
+    
     <div class="form-group">
+       <input type="hidden" name="action" value="user">
       <button type="submit">Submit</button>
-      <input type="hidden" name="action" value="user">
-      <input type="hidden" name="user">
+   
+      </div>
   </form>
-</div>
 
+<script>
+document.getElementById('auctionForm').addEventListener('submit', function(event) {
+  event.preventDefault(); 
+  
+  
+  alert("Product submitted successfully!");
+
+  this.submit();
+  
+});
+</script>
 </body>
 </html>
     

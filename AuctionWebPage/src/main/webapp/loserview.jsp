@@ -85,7 +85,7 @@
       <ul>
         <li><a href="homepage.jsp">Home</a></li>
         <li><a href="Winner">Winners</a></li>
-        <li><a href="login.jsp">Login</a></li>
+        <li><a href="loserview">Losers</a></li>
         <li><a href="about.jsp">About</a></li>
       </ul>
     </nav>

@@ -156,7 +156,7 @@ public class AuctionPojo {
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
-	public AuctionPojo(int userId, String userName, int productId,String productName, byte[] image2, String productModel2, String productCategory2, String productCondition2, String productDescription2, String terms2, int averageAmount2, int maximumAmount2, Date startDate2, Date endDate2, byte[] iso) {
+	public AuctionPojo(int userId, String userName, int productId,String productName, byte[] image2, String productModel2, String productCategory2, String productCondition2, String productDescription2, String terms2, int averageAmount2, Date startDate2, Date endDate2, byte[] iso) {
 	    this.id = userId;
 	    this.name = userName;
 	    this.productId = productId;
@@ -168,7 +168,7 @@ public class AuctionPojo {
 	    this.productDescription = productDescription2;
 	    this.terms = terms2;
 	    this.averageAmount = averageAmount2;
-	    this.maximumAmount = maximumAmount2;
+	    
 	    this.startDate = startDate2;
 	    this.endDate = endDate2;
 	    this.iso = iso;

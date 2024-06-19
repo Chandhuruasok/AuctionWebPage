@@ -1,28 +1,23 @@
 package com.auction.test;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.auction.model.ViewAmountPojo;
-import com.auction.util.JdbcAuction;
 
 /**
- * Servlet implementation class ViewBidAmount
+ * Servlet implementation class UserViewBidders
  */
-@WebServlet("/ViewBidAmount")
-public class ViewBidAmount extends HttpServlet {
+@WebServlet("/UserViewBidders")
+public class UserViewBidders extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	static JdbcAuction jdbcAuction=new JdbcAuction(); 
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ViewBidAmount() {
+    public UserViewBidders() {
         super();
 
     }
@@ -33,22 +28,13 @@ public class ViewBidAmount extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		
-		ArrayList<ViewAmountPojo> viewBidAmount = null;
-		try {
-			response.getWriter().append("Served at: ").append(request.getContextPath());
-        	viewBidAmount = JdbcAuction.viewBidAmount();
-        	
-} 	
-        catch (ClassNotFoundException | SQLException e) {
-        	e.printStackTrace();
-        	}
-        
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String productName =request.getParameter("productname");
+	    
 
-        request.setAttribute("viewBidAmount", viewBidAmount);
-
-
-        request.getRequestDispatcher("viewbidamount.jsp").forward(request, response);
+		   
+	    request.setAttribute("productName", productName);
+        request.getRequestDispatcher("userviewbidders.jsp").forward(request, response);
 	}
 
 	/**
@@ -58,7 +44,6 @@ public class ViewBidAmount extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		doGet(request, response);
-		
 	}
 
 }

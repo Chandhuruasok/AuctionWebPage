@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="${langAttribute}">
 <head>
 <meta charset="ISO-8859-1">
 <title>Bidderboy Auction Website</title>
@@ -84,23 +84,23 @@ color:white;
 <body>
 <nav>
     <ul>
-<!-- -     	 <li><img src="Images/bid2" alt="logo"></li>  -->
+
        <li><a href="homepage.jsp">Home</a></li>
         <li><a href="login.jsp">Login</a></li>
         <li><a href="about.jsp">About</a></li>
     </ul>
 </nav>
 <div id="content">
-	<center>
+	
       <h1>Welcome to Bidderboy</h1>
-    </center>
+    
     <p>Welcome to Bidderboy, the premier online auction platform. We bring buyers and sellers together from around the globe, providing a secure and reliable marketplace for trading a wide variety of items.</p>
     <h2>How It Works</h2>
     <p>Our platform is designed to be easy to use for both buyers and sellers:</p>
     <ol>
         <li><strong>Sign Up:</strong> Create an account to start bidding or listing items.</li>
         <li><strong>List Items:</strong> Sellers can list items with detailed descriptions and photos.</li>
-        <li><strong>Bid or Buy:</strong> Buyers can bid on items or choose the 'Buy Now' option.</li>
+        <li><strong>Bid or Buy:</strong> Buyers can bid on items or choose the 'Bid Now' option.</li>
         <li><strong>Secure Payment:</strong> All transactions are processed securely through our platform.</li>
         <li><strong>Delivery:</strong> Coordinate shipping or pick-up directly with the seller.</li>
     </ol>

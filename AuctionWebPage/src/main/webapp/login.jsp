@@ -141,7 +141,7 @@ button:hover {
        	<h2>Login Form</h2>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" pattern="^(?=.*[a-z])+@(?=.*[a-z])+\.(?=.*[a-z]){6,20}$" required>
+            <input type="email" id="email" name="email" required>
         </div>
         <div class="form-group">
             <label for="name">User Name</label>

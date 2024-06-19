@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 					pageEncoding="ISO-8859-1"%>
 <%@ page import="com.auction.model.ViewAmountPojo"%>
+<%@ page import="com.auction.model.AuctionPojo"%>
 <%@ page import="com.auction.util.JdbcAuction"%>
 <%@ page import="java.util.ArrayList"%>
 
@@ -96,7 +97,7 @@ footer {
 						<nav>
 							<ul>
 								<li><a href="homepage.jsp">Home</a></li>
-								<li><a href="Winner">View Winners</a></li>
+								<li><a href="UserViewWinner">View Winners</a></li>
 								<li><a href="about.jsp">About</a></li>
 							</ul>
 						</nav>
@@ -124,10 +125,15 @@ footer {
 									<td><%=pojo.getBidderName() %></td>
 									<td><%=pojo.getProductName() %></td>
 									<td><%=pojo.getBidAmount() %></td>
-									<td>
-								
-            					</td>
-								</tr>
+									</tr>
+												<% 
+    AuctionPojo userId=(AuctionPojo)session.getAttribute("userid"); 
+    
+    %>
+    <% 
+    AuctionPojo userName=(AuctionPojo)session.getAttribute("username"); 
+    
+    %>
 								<% 
         }
         %>

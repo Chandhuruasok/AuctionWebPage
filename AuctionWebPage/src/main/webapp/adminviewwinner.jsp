@@ -109,8 +109,8 @@
     <h1>Winners List!</h1>
     <nav>
       <ul>
-        
-        <li><a href="homepage.jsp">Logout</a></li>
+        <li><a href="homepage.jsp">Home</a></li>
+        <li><a href="login.jsp">Logout</a></li>
         </ul>
     </nav>
   </header>
@@ -132,7 +132,7 @@
             for (ViewAmountPojo viewPojo : approvedIds) {
         %>
         <tr>
-         
+          
           <td><%= viewPojo.getBidderName() %></td>
           <td><%= viewPojo.getProductName() %></td>
           <td><%= viewPojo.getBidAmount() %></td>
@@ -144,6 +144,8 @@
       </tbody>
     </table>
   </section>
-  
+  <footer>
+    <p>&copy; 2024 Auction Website</p>
+  </footer>
 </body>
 </html>

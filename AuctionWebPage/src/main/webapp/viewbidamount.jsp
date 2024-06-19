@@ -114,15 +114,14 @@
   <nav>
     <ul>
       <li><a href="homepage.jsp">Home</a></li>
-      <li><a href="login.jsp">Login</a></li>
-        <li><a href="Admin">Approved Products</a></li>
+      <li><a href="Admin">Approved Products</a></li>
         <li><a href="ViewBidAmount">View Bid Amounts</a></li>
     </ul>
   </nav>
    </header>
   <section id="view-users">
-    <center><h2>View Bid Amount</h2></center>
-    <div class="card-container">
+    <h2>View Bid Amount</h2>
+        <div class="card-container">
         <%         
             JdbcAuction jdbcAuction = new JdbcAuction();
             ArrayList<ViewAmountPojo> viewBidAmount = (ArrayList<ViewAmountPojo>) request.getAttribute("viewBidAmount");
