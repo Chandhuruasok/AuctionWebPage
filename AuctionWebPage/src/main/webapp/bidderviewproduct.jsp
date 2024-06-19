@@ -127,11 +127,12 @@
   <header>
     <h1>Welcome Bidders!</h1>
     <nav>
+    <li><a href="login.jsp">Logout</a></li>
       <form id="searchForm" action="SearchServlet" method="get">
         <input id="searchInput" type="text" name="search" placeholder="Search Product Category...">
         <button type="submit">Search</button>
       </form>
-      <li><a href="login.jsp">Logout</a></li>
+      
     </nav>
   </header>
   <section id="view-users">

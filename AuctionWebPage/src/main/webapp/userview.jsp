@@ -116,6 +116,7 @@
 		<nav>
 			<ul>
 				<li><a href="homepage.jsp">Home</a></li>
+				<li><a href="login.jsp">Logout</a></li>
 				<form id="searchForm" action="SearchServlet" method="get">
         <input id="searchInput" type="text" name="search" placeholder="Search Product Category...">
         <button type="submit">Search</button>
@@ -187,6 +188,7 @@
     AuctionPojo userName=(AuctionPojo)session.getAttribute("username"); 
     
     %>
+    <div class="countdown" id="countdown_<%= pojo.getProductId() %>"></div>
 <%  
 if (endDateString.compareTo(currentDateString) > 0) { 
 %>
