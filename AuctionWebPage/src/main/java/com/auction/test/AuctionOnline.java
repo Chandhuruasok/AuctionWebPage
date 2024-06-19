@@ -42,7 +42,7 @@ public class AuctionOnline extends HttpServlet {
         
         String action = request.getParameter("action");
         
-        
+        System.out.println(action);
         if (action != null) {
             switch (action) {
                 case "register":
@@ -83,9 +83,9 @@ public class AuctionOnline extends HttpServlet {
                         	AuctionPojo id=jdbcAuction.getId(auctionPojo);
                         	AuctionPojo userName=jdbcAuction.getId(auctionPojo);                        	
                         	HttpSession session=request.getSession();
-                        	
-                        	session.setAttribute("userid",id.getId());
-                        	session.setAttribute("username",userName.getName());
+                        	System.out.println(id+" "+userName);
+                        	session.setAttribute("userid",id);
+                        	session.setAttribute("username",userName);
                             if(email1.endsWith("@bidderboy.com")) 
                             {
                               response.sendRedirect("admin.jsp");
@@ -114,7 +114,7 @@ public class AuctionOnline extends HttpServlet {
 
                 	String name2 = request.getParameter("username");
                 	String productName=request.getParameter("product_name");
-                	
+                	System.out.println(productName);
                 	Part filePart = request.getPart("image");
                 	InputStream inputStream=null;
                     if (filePart != null) {
@@ -209,5 +209,4 @@ public class AuctionOnline extends HttpServlet {
         }
     }
 }
-
 }
