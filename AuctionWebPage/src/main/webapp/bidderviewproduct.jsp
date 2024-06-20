@@ -19,42 +19,43 @@
     header {
       background-color: green;
       color: white;
-      font-size: 8px;
-      padding: 5px;
+      font-size:8px;
+      padding: 10px 0;
       text-align: center;
       position: fixed;
       top: 0;
       width: 100%;
-       z-index: 1000;
+      z-index: 1000;
     }
     nav {
       background-color: #f4f4f4;
-     
-      padding: 5px 10px; 
-      height: 40px; 
+      padding: 5px 10px;
     }
     nav ul {
       list-style-type: none;
       margin: 0;
       padding: 0;
+      text-align: center;
     }
     nav ul li {
-      display: inline;
+      display: inline-block;
       margin-right: 20px;
     }
     nav ul li a {
       color: black;
       text-decoration: none;
-      font-size: 30px;
+      font-size:15px;
+      padding: 10px 15px;
+      display: inline-block;
     }
     section {
-      padding-top: 60px;
+      padding-top: 100px; 
       padding-left: 20px;
     }
     .card-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 20px;
       justify-content: center;
     }
     .card {
@@ -84,7 +85,7 @@
     footer {
       background-color: green;
       color: white;
-      padding: 0px;
+      padding: 10px 0;
       text-align: center;
       position: fixed;
       bottom: 0;
@@ -103,7 +104,7 @@
       margin-bottom: 10px;
     }
     .bid-form input[type="number"] {
-      width: calc(100% - 16px); 
+      width: calc(100% - 16px);
       padding: 8px;
       margin-bottom: 10px;
       box-sizing: border-box;
@@ -127,12 +128,15 @@
   <header>
     <h1>Welcome Bidders!</h1>
     <nav>
-    <li><a href="login.jsp">Logout</a></li>
-      <form id="searchForm" action="SearchServlet" method="get">
-        <input id="searchInput" type="text" name="search" placeholder="Search Product Category...">
-        <button type="submit">Search</button>
-      </form>
-      
+      <ul>
+        <li><a href="login.jsp">Logout</a></li>
+        <li>
+          <form id="searchForm" action="SearchServlet" method="get">
+            <input id="searchInput" type="text" name="search" placeholder="Search Product Category...">
+            <button type="submit">Search</button>
+          </form>
+        </li>
+      </ul>
     </nav>
   </header>
   <section id="view-users">
@@ -247,7 +251,6 @@
     </div>
     <p id="noProductsFoundMessage" class="no-products-found">No products found.</p>
   </section>
-  
   
   <script>
     document.addEventListener('DOMContentLoaded', function () {

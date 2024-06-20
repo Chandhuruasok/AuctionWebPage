@@ -4,106 +4,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bidderboy Auction Website</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f1f1f1;
-    }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    .form-group label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 7px;
-      border: 3px solid #ccc;
-      box-sizing: border-box;
-      margin-top: 5px;
-    }
-    .form-group textarea {
-      height: 100px;
-    }
-    .form-group button {
-      background-color: blue;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .form-group button:hover {
-      background-color: black;
-    }
-    nav {
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bidderboy Auction Website</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f1f1f1;
+  }
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 7px;
+    border: 3px solid #ccc;
+    box-sizing: border-box;
+    margin-top: 5px;
+  }
+  .form-group textarea {
+    height: 100px;
+  }
+  .form-group button {
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .form-group button:hover {
+    background-color: black;
+  }
+  nav {
     background-color: green; 
     overflow: hidden;
     top: 0;
     width: 100%;
     position: fixed;
-}
-
-nav ul {
+    padding-top:-30px;
+  }
+  nav ul {
     list-style-type: none;
     display: flex;
-}
-
-nav ul li {
+  }
+  nav ul li {
     flex: 1;
-}
-
-nav ul li a {
+  }
+  nav ul li a {
     display: block;
     color: white;
     text-align: center;
     padding-top: 40px;
     text-decoration: none;
-}
-
-nav ul li a:hover {
+  }
+  nav ul li a:hover {
     background-color: #111;
-}
-    
-  </style>
+  }
+</style>
 </head>
 <body>
 <header>
-<nav>
-      <ul>
-        <li><a href="homepage.jsp">Home</a></li>
-        <li><a href="User">View Approved Products</a></li>
-        <li><a href="about.jsp">About</a></li>
-      </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li><a href="homepage.jsp">Home</a></li>
+      <li><a href="User">View Approved Products</a></li>
+      <li><a href="about.jsp">About</a></li>
+    </ul>
+  </nav>
 </header>
 <div class="container">
   <h2>Product Details</h2>
   <form id="auctionForm" action="AuctionOnline" method="post" enctype="multipart/form-data">
     <div class="form-group">
-    <% 
-    AuctionPojo userName=(AuctionPojo)session.getAttribute("username"); 
-    
-    %>
-    <input type="hidden" value="<%=userName.getName()%>" name="username">
+      <% 
+        AuctionPojo userName=(AuctionPojo)session.getAttribute("username"); 
+      %>
+      <input type="hidden" value="<%=userName.getName()%>" name="username">
       <label for="name">Seller Name:</label>
       <input type="text" id="name" name="username" value="<%= userName.getName() %>" readonly>
     </div>
@@ -123,7 +118,6 @@ nav ul li a:hover {
       <label for="product_model">Product Model:</label>
       <input type="text" id="product_model" name="product_model">
     </div>
-    
     <div class="form-group">
       <label for="product_condition">Product Condition:</label>
       <select id="product_condition" name="product_condition">
@@ -144,7 +138,7 @@ nav ul li a:hover {
       <label for="average_amount">Bid Start Amount:</label>
       <input type="number" id="average_amount" name="average_amount" required>
     </div>
-     <div class="form-group">
+    <div class="form-group">
       <label for="bid_start_date">Bid Start Date:</label>
       <input type="date" id="bid_start_date" name="bid_start_date" required>
     </div>
@@ -153,34 +147,60 @@ nav ul li a:hover {
       <input type="date" id="bid_end_date" name="bid_end_date" required>
     </div>
     <div class="form-group">
-    <label for="myfile">ISO Certificate:</label>
+      <label for="myfile">ISO Certificate:</label>
       <input type="file" id="myfile" name="myfile" accept="image/*">
     </div>
     <% 
-    AuctionPojo userId=(AuctionPojo)session.getAttribute("userid"); 
-    
+      AuctionPojo userId=(AuctionPojo)session.getAttribute("userid"); 
     %>
     <input type="hidden" value="<%=userId.getId()%>" name="id">
-    
-    
     <div class="form-group">
-       <input type="hidden" name="action" value="user">
+      <input type="hidden" name="action" value="user">
       <button type="submit">Submit</button>
-   
-      </div>
+    </div>
   </form>
 
-<script>
-document.getElementById('auctionForm').addEventListener('submit', function(event) {
-  event.preventDefault(); 
-  
-  
-  alert("Product submitted successfully!");
+  <script>
+    document.getElementById('auctionForm').addEventListener('submit', function(event) {
+      event.preventDefault();      
+      if (validateDates()) {
+        alert("Product submitted successfully!");
+        this.submit(); 
+      } else {
+        alert("Please check the dates and try again."); 
+      }
+    });
 
-  this.submit();
-  
-});
-</script>
+    function validateDates() {
+      var startDate = document.getElementById('bid_start_date').value;
+      var endDate = document.getElementById('bid_end_date').value;
+
+      
+      if (!startDate) {
+        alert("Please enter a valid Bid Start Date.");
+        return false;
+      }
+
+      var today = new Date().toISOString().slice(0, 10); 
+
+      if (startDate < today) {
+        alert("Bid Start Date cannot be in the past.");
+        return false;
+      }
+
+      
+      if (!endDate) {
+        alert("Please enter a valid Bid End Date.");
+        return false;
+      }
+
+      if (endDate <= startDate) {
+        alert("Bid End Date must be after Bid Start Date.");
+        return false;
+      }
+
+      return true; 
+    }
+  </script>
 </body>
 </html>
-    

@@ -270,34 +270,7 @@ public void approveId(int id) throws SQLException, ClassNotFoundException {
     statement.executeUpdate();
     
 }
-public  ArrayList<ViewAmountPojo>  Losers() throws ClassNotFoundException, SQLException
-{
-	ArrayList<ViewAmountPojo>viewloser=new ArrayList<>();
-	Connection connection=Util.getConnection();
-	try
-	{
-	PreparedStatement ps=connection.prepareStatement("select id,bidder_name,product_name,bid_amount from bidder where winner_status=false;");
-	ResultSet rs=ps.executeQuery();
-	while(rs.next())
-	{
-		
-		int userId=rs.getInt("id");
-		String bidderName=rs.getString("bidder_name");
-		String productName=rs.getString("product_name");
-		int bidAmount=rs.getInt("bid_amount");
-		viewloser.add(new ViewAmountPojo(userId,bidderName,productName,bidAmount));
-	
-	}
-	}
-	catch (SQLException e) {
-        
-        e.printStackTrace();
-    }
-    
-	return viewloser;
-	
-	
-}
+
 public ArrayList<ViewAmountPojo> getApprovedId() throws ClassNotFoundException, SQLException {
     ArrayList<ViewAmountPojo> approvedId = new ArrayList<>();
     Connection connection = null;
@@ -407,5 +380,23 @@ public static ArrayList<ViewAmountPojo> viewWinners(String productName) throws C
     }
 
     return viewWinners;
+}
+public void payment(ViewAmountPojo viewAmountPojo) throws SQLException, ClassNotFoundException {
+	Connection connection = Util.getConnection();
+    String query = "insert into transaction (bidder_name,bidder_account_number,bidder_id)values(?,?,?)";
+    PreparedStatement prepare = connection.prepareStatement(query);
+    prepare.setString(1, viewAmountPojo.getBidderName());
+    prepare.setString(2, viewAmountPojo.getBidderAccountNumber());
+    prepare.setInt(3, viewAmountPojo.getUserId());
+    prepare.executeUpdate();
+	
+}
+public void successPayment(int id) throws SQLException, ClassNotFoundException {
+    Connection connection = Util.getConnection();
+    String sql = "update transaction set payment ='1' where bidder_id = ?";
+    PreparedStatement statement = connection.prepareStatement(sql);
+    statement.setInt(1, id);
+    statement.executeUpdate();
+    
 }
 }
