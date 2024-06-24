@@ -130,7 +130,7 @@ margin-top: 10px;
                 <th>Bidder Name</th>
                 <th>Product Name</th>
                 <th>Bid Amount</th>
-                
+                <th>Payment</th>
             </thead>
             <tbody>
                 <% 
@@ -144,9 +144,26 @@ margin-top: 10px;
                     <td><%= pojo.getBidderName() %></td>
                     <td><%= pojo.getProductName() %></td>
                     <td><%= pojo.getBidAmount() %></td>
-                    
+                    <td>
+                        <button onclick="showPaymentForm('<%= pojo.getBidderName() %>')">Pay</button>
+                    </td>
                 </tr>
-                
+                <div id="paymentForm_<%= pojo.getBidderName() %>" class="form-container">
+                <%AuctionPojo user=(AuctionPojo)session.getAttribute("userid") ; %>
+                    <form id="payForm_<%= pojo.getBidderName() %>" action="ViewWinners" method="post">
+                        <label for="accountNumber">Account Number:</label>
+                        <input type="text" id="accountNumber_<%= pojo.getBidderName() %>" name="accountNumber" placeholder="Enter the 16 digits number" pattern="[0-9]{16}" required>
+                       
+                        <label for="cvvNumber">CVV Number:</label>
+                        <input type="text" id="cvvNumber_<%= pojo.getBidderName() %>" name="cvvNumber" placeholder="Enter the 3 digits number" pattern=[0-9]{3} required>
+                        <label for="expiryDate">Expiry Date:</label>
+                        <input type="text" id="expiryDate_<%= pojo.getBidderName() %>" name="expiryDate" placeholder="YYYY/MM"required>
+                        <input type="hidden" id="bidderName_<%= pojo.getBidderName() %>" name="bidderName" value="<%= pojo.getBidderName() %>">
+                        <input type="hidden" id="productName_<%= pojo.getBidderName() %>" name="productName" value="<%= pojo.getProductName() %>">
+                        <input type="hidden" name="userId" value="<%=user.getId() %>">
+                        <button type="submit">Pay Now</button>
+                    </form>
+                </div>
                 <% 
                     }
                 %>
@@ -154,6 +171,19 @@ margin-top: 10px;
         </table>
     </section>
 
-    
+    <div id="paymentSuccessMessage" style="display: none; background-color: #4CAF50; color: white; text-align: center; padding: 10px;">
+        Payment Successful!
+    </div>
+
+    <script>
+        function showPaymentForm(bidderName) {
+            var paymentForm = document.getElementById('paymentForm_' + bidderName);
+            if (paymentForm.style.display === 'none' || paymentForm.style.display === '') {
+                paymentForm.style.display = 'block';
+            } else {
+                paymentForm.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>

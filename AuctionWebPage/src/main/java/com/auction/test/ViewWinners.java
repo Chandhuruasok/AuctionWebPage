@@ -52,14 +52,14 @@ public class ViewWinners extends HttpServlet {
         String bidderName = request.getParameter("bidderName");
         String accountNumber = request.getParameter("accountNumber");
         int bidderId = Integer.parseInt(request.getParameter("userId"));
-        String productName = request.getParameter("accountNumber");
+        String productName = request.getParameter("productName");
        
         ViewAmountPojo viewAmountPojo = new ViewAmountPojo();
         viewAmountPojo.setBidderName(bidderName);
         viewAmountPojo.setBidderAccountNumber(accountNumber);
        
         viewAmountPojo.setUserId(bidderId);
-      
+        viewAmountPojo.setProductName(productName);
         JdbcAuction jdbcAuction = new JdbcAuction();
         try {
             jdbcAuction.payment(viewAmountPojo); 
@@ -71,7 +71,7 @@ public class ViewWinners extends HttpServlet {
         }
 
        
-        response.sendRedirect("viewwinners.jsp");
+        response.sendRedirect("biddersviewwinners.jsp");
     }
 
 }

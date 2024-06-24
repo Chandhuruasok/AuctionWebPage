@@ -183,6 +183,7 @@
             <input type="hidden" name="biddername" value="<%= user1.getName() %>">
             <input type="hidden" name="productname" value="<%= pojo.getProductName() %>">
             <label for="bidAmount_<%= pojo.getProductName() %>">Enter Bid Amount:</label>
+            <input type="number" id="bidAmount_<%= pojo.getProductName() %>" name="bidAmount" required value="<%= session.getAttribute("bidAmount") %>">
             <input type="number" id="bidAmount_<%= pojo.getProductName() %>" name="bidAmount" required>
             <button type="submit">Submit Bid</button>
           </form>
@@ -194,7 +195,7 @@
         <% } else { %>
           <p>Auction ended</p>
             <%-- <% bidStatus= "false"; %> --%>
-             <form action="ViewWinners" method="get">
+             <form action="Winners" method="get">
           <input type="hidden" name="productname" value="<%= pojo.getProductName() %>">
          <%--  <input type="hidden" name="bidStatus" value="<%=  bidStatus%>"> --%>
           <button type="submit">View Winners</button>

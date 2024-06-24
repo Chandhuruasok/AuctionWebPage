@@ -141,7 +141,7 @@
             <form action="AuctionOnline" method="post">
               <input type="hidden" name="action" value="delete">
               <input type="hidden" name="deleteproductid" value="<%= pojo.getProductId() %>">
-              <button type="submit" title="delete">Delete</button>
+              <button type="submit" title="delete">Reject</button>
             </form>
           </td>
           <td>

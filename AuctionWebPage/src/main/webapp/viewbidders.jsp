@@ -95,9 +95,9 @@ footer {
 						<h1>View Bidders</h1>
 						<nav>
 							<ul>
-								<li><a href="homepage.jsp">Home</a></li>
+								<li><a href="login.jsp">Logout</a></li>
 								
-								<li><a href="about.jsp">About</a></li>
+								
 							</ul>
 						</nav>
 					</header>

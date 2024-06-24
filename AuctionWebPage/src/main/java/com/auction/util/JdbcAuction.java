@@ -383,11 +383,12 @@ public static ArrayList<ViewAmountPojo> viewWinners(String productName) throws C
 }
 public void payment(ViewAmountPojo viewAmountPojo) throws SQLException, ClassNotFoundException {
 	Connection connection = Util.getConnection();
-    String query = "insert into transaction (bidder_name,bidder_account_number,bidder_id)values(?,?,?)";
+    String query = "insert into transaction (bidder_name,bidder_account_number,bidder_id,product_name)values(?,?,?,?)";
     PreparedStatement prepare = connection.prepareStatement(query);
     prepare.setString(1, viewAmountPojo.getBidderName());
     prepare.setString(2, viewAmountPojo.getBidderAccountNumber());
     prepare.setInt(3, viewAmountPojo.getUserId());
+    prepare.setString(4, viewAmountPojo.getProductName());
     prepare.executeUpdate();
 	
 }
