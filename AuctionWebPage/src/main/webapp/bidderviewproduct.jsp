@@ -19,7 +19,7 @@
     header {
       background-color: green;
       color: white;
-      font-size:8px;
+      font-size: 18px; 
       padding: 10px 0;
       text-align: center;
       position: fixed;
@@ -44,12 +44,12 @@
     nav ul li a {
       color: black;
       text-decoration: none;
-      font-size:15px;
+      font-size: 15px;
       padding: 10px 15px;
       display: inline-block;
     }
     section {
-      padding-top: 100px; 
+      padding-top: 100px;
       padding-left: 20px;
     }
     .card-container {
@@ -142,7 +142,6 @@
   <section id="view-users">
     <h2>Approved Products</h2>
     <div class="card-container">
-    <%-- <% String bidStatus=null; %> --%>
       <%         
         JdbcAuction jdbcAuction = new JdbcAuction();
         ArrayList<AuctionPojo> approvedProducts = jdbcAuction.getApprovedProduct();
@@ -172,36 +171,30 @@
         <p>Bid End Date: <%= pojo.getEndDate() %></p>
         <div class="countdown" id="countdown_<%= pojo.getProductId() %>"></div>
         <% 
-        AuctionPojo user=(AuctionPojo)session.getAttribute("userid") ;
-        AuctionPojo user1=(AuctionPojo)session.getAttribute("username") ;
+          AuctionPojo user = (AuctionPojo) session.getAttribute("userid");
+          AuctionPojo user1 = (AuctionPojo) session.getAttribute("username");
           if (endDateString.compareTo(currentDateString) > 0) { 
         %>
-      <%--  <% bidStatus= "true"; %> --%>
           <button type="button" onclick="toggleBidForm('<%= pojo.getProductName() %>')" title="bid">Bid Now</button>
-          <form id="bidForm_<%= pojo.getProductName() %>" class="bid-form" style="display: none;" action="BidAuction" method="post">
-            <input type="hidden" name="userId" value="<%=user.getId() %>">
+          <form id="bidForm_<%= pojo.getProductName() %>" class="bid-form" style="display: none;" action="BidAuction" method="post" onsubmit="return validateBidAmount('<%= pojo.getAverageAmount() %>')">
+            <input type="hidden" name="userId" value="<%= user.getId() %>">
             <input type="hidden" name="biddername" value="<%= user1.getName() %>">
             <input type="hidden" name="productname" value="<%= pojo.getProductName() %>">
             <label for="bidAmount_<%= pojo.getProductName() %>">Enter Bid Amount:</label>
-            <input type="number" id="bidAmount_<%= pojo.getProductName() %>" name="bidAmount" required value="<%= session.getAttribute("bidAmount") %>">
-            <input type="number" id="bidAmount_<%= pojo.getProductName() %>" name="bidAmount" required>
+            <input type="number" id="bidAmount_<%= pojo.getProductName() %>" name="bidAmount" required value="<%= pojo.getAverageAmount() %>" min="<%= pojo.getAverageAmount() %>">
             <button type="submit">Submit Bid</button>
           </form>
-           <form action="ViewBidders" method="get">
-          <input type="hidden" name="productname" value="<%= pojo.getProductName() %>">
-          <%-- <input type="hidden" name="bidStatus" value="<%=  bidStatus%>"> --%>
-          <button type="submit">View Bidders</button>
-        </form>
+          <form action="ViewBidders" method="get">
+            <input type="hidden" name="productname" value="<%= pojo.getProductName() %>">
+            <button type="submit">View Bidders</button>
+          </form>
         <% } else { %>
           <p>Auction ended</p>
-            <%-- <% bidStatus= "false"; %> --%>
-             <form action="Winners" method="get">
-          <input type="hidden" name="productname" value="<%= pojo.getProductName() %>">
-         <%--  <input type="hidden" name="bidStatus" value="<%=  bidStatus%>"> --%>
-          <button type="submit">View Winners</button>
-        </form>
+          <form action="Winners" method="get">
+            <input type="hidden" name="productname" value="<%= pojo.getProductName() %>">
+            <button type="submit">View Winners</button>
+          </form>
         <% } %>
-        
       </div>
       <script>
         var startDate_<%= pojo.getProductId() %> = new Date('<%= pojo.getStartDate() %>').getTime();
@@ -288,6 +281,18 @@
       } else {
         bidForm.style.display = "none";
       }
+    }
+
+    function validateBidAmount(startingBid) {
+      var bidAmountInput = document.getElementById('bidAmount');
+      var bidAmount = parseFloat(bidAmountInput.value);
+      var startingBidValue = parseFloat(startingBid);
+
+      if (bidAmount < startingBidValue) {
+        alert('Bid amount cannot be less than the starting bid amount: ' + startingBidValue);
+        return false;
+      }
+      return true;
     }
   </script>
 </body>
