@@ -177,7 +177,8 @@
             minutes = Math.floor((distanceEnd % (1000 * 60 * 60)) / (1000 * 60));
             seconds = Math.floor((distanceEnd % (1000 * 60)) / 1000);
             countdownElement_<%= pojo.getProductId() %>.innerHTML = "Ends in: " + days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-          } else {
+          }
+           else {
             clearInterval(countdownInterval_<%= pojo.getProductId() %>);
             countdownElement_<%= pojo.getProductId() %>.innerHTML = "Auction ended";
           }

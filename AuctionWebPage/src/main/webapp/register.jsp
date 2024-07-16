@@ -89,6 +89,32 @@ body {
     border-radius: 3px;
 }
 
+.form-group label.radio-label {
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.form-group input[type="radio"] {
+    display: none; /* Hide the actual radio buttons */
+}
+
+.form-group input[type="radio"] + .radio-label:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.form-group input[type="radio"]:checked + .radio-label:before {
+    background-color: #5cb85c; /* Adjust color for checked state */
+}
+
 button {
     width: 100%;
     padding-bottom:20px;
@@ -130,8 +156,13 @@ button:hover {
     <div class="container">
         <form action="AuctionOnline" method="post" class="registration-form">
             <h2>Registration Form</h2>
-            <p>If you are a seller then your email id should ends with @seller.com, suppose the seller needs to participate in auction then they must create new email id that should ends with @gmail.com</p><br>
-            <p>If you are a bidder then your email id should ends with @gmail.com, suppose the bidder needs to participate in auction then they must create new email id that should ends with @seller.com</p>
+             <div class="form-group">
+                <label for="role">Role</label><br>
+                <input type="radio" id="seller" name="role" value="seller" onclick="updateEmailPlaceholder()"> 
+                <label class="radio-label" for="seller"><span>Seller</span></label>
+                <input type="radio" id="bidder" name="role" value="bidder" onclick="updateEmailPlaceholder()"> 
+                <label class="radio-label" for="bidder"><span>Bidder</span></label>
+            </div>
             <div class="form-group">
                 <label for="email">Email</label> 
                 <input type="email" id="email" name="email" required>
@@ -153,6 +184,8 @@ button:hover {
                 <input type="password" id="confirmpassword" name="confirmpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#&]).{5,}" required>
             </div>
 
+           
+
             <button type="submit">Register</button>
             <input type="hidden" name="action" value="register"> 
             <input type="hidden" name="register">
@@ -163,5 +196,19 @@ button:hover {
             <p>&copy; 2024 e-Auction. All rights reserved.</p>
         </footer>
     </div>
+
+    <script>
+        function updateEmailPlaceholder() {
+            var emailField = document.getElementById("email");
+            var sellerRadio = document.getElementById("seller");
+            var bidderRadio = document.getElementById("bidder");
+
+            if (sellerRadio.checked) {
+                emailField.placeholder = "Enter your email (@seller.com)";
+            } else if (bidderRadio.checked) {
+                emailField.placeholder = "Enter your email (@gmail.com)";
+            }
+        }
+    </script>
 </body>
 </html>
